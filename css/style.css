@@ -1,0 +1,28 @@
+/* ===========================
+   1. CSS RESET
+   Removes browser default styling so our design looks
+   consistent across Chrome, Firefox, Safari, etc.
+=========================== */
+* {
+    margin: 0;              /* removes default spacing around elements */
+    padding: 0;             /* removes default inner spacing */
+    box-sizing: border-box; /* makes width/height calculations predictable (explained below) */
+}
+
+/* ===========================
+   2. BASE PAGE SETUP
+=========================== */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif; /* a clean, modern, widely-available font */
+    line-height: 1.6;                            /* comfortable spacing between lines of text, easier to read */
+    color: #1a1a1a;                               /* near-black text — softer than pure black, easier on the eyes */
+    background-color: #ffffff;                    /* plain white background for now */
+}
+
+/* ===========================
+   3. IMAGE DEFAULT FIX
+=========================== */
+img {
+    max-width: 100%;    /* images never overflow their container — critical for responsive design */
+    display: block;     /* removes small unwanted gap that appears below images by default */
+}
