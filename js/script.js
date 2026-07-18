@@ -173,3 +173,67 @@ hamburgerBtn.addEventListener('click', function () {
     hamburgerBtn.classList.toggle('active');   // toggles the X animation
     navLinks.classList.toggle('active');       // toggles the menu sliding in/out
 });
+// ===========================
+// DARK / LIGHT MODE TOGGLE
+// ===========================
+const themeToggleBtn = document.querySelector('.theme-toggle');
+
+// Check Local Storage for a previously saved theme preference
+if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+    themeToggleBtn.textContent = '☀️';   // show a sun icon when already in dark mode
+}
+
+themeToggleBtn.addEventListener('click', function () {
+    document.body.classList.toggle('dark-mode');
+
+    // Update the icon and save the preference
+    if (document.body.classList.contains('dark-mode')) {
+        themeToggleBtn.textContent = '☀️';
+        localStorage.setItem('theme', 'dark');
+    } else {
+        themeToggleBtn.textContent = '🌙';
+        localStorage.setItem('theme', 'light');
+    }
+});
+// ===========================
+// PRODUCT DETAILS PAGE
+// ===========================
+
+// Only run this code if we're actually on the product details page
+// (checks if the quantity display element exists on the current page)
+const qtyDisplay = document.getElementById('qtyDisplay');
+
+if (qtyDisplay) {
+    const decreaseBtn = document.getElementById('decreaseQty');
+    const increaseBtn = document.getElementById('increaseQty');
+    const addToCartDetailsBtn = document.getElementById('addToCartDetailsBtn');
+
+    let selectedQty = 1;   // tracks how many the user wants to add
+
+    increaseBtn.addEventListener('click', function () {
+        selectedQty += 1;
+        qtyDisplay.textContent = selectedQty;
+    });
+
+    decreaseBtn.addEventListener('click', function () {
+        if (selectedQty > 1) {   // never let it go below 1
+            selectedQty -= 1;
+            qtyDisplay.textContent = selectedQty;
+        }
+    });
+
+    addToCartDetailsBtn.addEventListener('click', function () {
+        const id = this.dataset.id;
+        const name = this.dataset.name;
+        const price = Number(this.dataset.price);
+        const image = this.dataset.image;
+
+        // Add the item to the cart 'selectedQty' number of times
+        for (let i = 0; i < selectedQty; i++) {
+            addToCart(id, name, price, image);
+        }
+
+        openCart();   // automatically open the cart so the user sees it was added
+    });
+}

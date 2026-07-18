@@ -3,6 +3,30 @@
    Removes browser default styling so our design looks
    consistent across Chrome, Firefox, Safari, etc.
 =========================== */
+/* ===========================
+   0. CSS VARIABLES (Theme Colors)
+   Defining colors here means we only need to change them
+   in ONE place to update the whole site's color scheme.
+=========================== */
+:root {
+    --bg-color: #ffffff;
+    --text-color: #1a1a1a;
+    --navbar-bg: #ffffff;
+    --card-bg: #ffffff;
+    --footer-bg: #1a1a1a;
+    --accent: #6c5ce7;
+    --hero-bg: linear-gradient(135deg, #f3f0ff 0%, #e8e4ff 100%);
+}
+
+/* Dark mode color overrides — applied when <body> has class="dark-mode" */
+body.dark-mode {
+    --bg-color: #121212;
+    --text-color: #f0f0f0;
+    --navbar-bg: #1e1e1e;
+    --card-bg: #1e1e1e;
+    --footer-bg: #000000;
+    --hero-bg: linear-gradient(135deg, #1f1a3d 0%, #14101f 100%);
+}
 * {
     margin: 0;              /* removes default spacing around elements */
     padding: 0;             /* removes default inner spacing */
@@ -13,10 +37,11 @@
    2. BASE PAGE SETUP
 =========================== */
 body {
-    font-family: 'Segoe UI', Arial, sans-serif; /* a clean, modern, widely-available font */
-    line-height: 1.6;                            /* comfortable spacing between lines of text, easier to read */
-    color: #1a1a1a;                               /* near-black text — softer than pure black, easier on the eyes */
-    background-color: #ffffff;                    /* plain white background for now */
+    font-family: 'Segoe UI', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* ===========================
@@ -30,11 +55,12 @@ img {
    4. NAVBAR STYLING
 =========================== */
 .navbar {
-    position: sticky;      /* keeps navbar visible even when the user scrolls down */
-    top: 0;                 /* sticks to the very top of the screen */
-    z-index: 100;           /* ensures navbar stays ABOVE other content, not hidden behind it */
-    background-color: #ffffff;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); /* soft shadow — gives a subtle "floating" look */
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--navbar-bg);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    transition: background-color 0.3s ease;
 }
 
 .navbar-container {
@@ -50,7 +76,7 @@ img {
 .logo {
     font-size: 1.5rem;
     font-weight: 700;           /* bold */
-    color: #1a1a1a;
+    color: var(--text-color);
     text-decoration: none;      /* removes the default underline on links */
     letter-spacing: -0.5px;     /* slightly tighter letter spacing — looks more premium on big text */
 }
@@ -127,10 +153,10 @@ img {
    5. HERO SECTION
 =========================== */
 .hero {
-    /* A soft diagonal gradient — modern and premium-looking */
-    background: linear-gradient(135deg, #f3f0ff 0%, #e8e4ff 100%);
-    padding: 6rem 1.5rem;   /* generous top/bottom space — premium sites "breathe" */
+    background: var(--hero-bg);
+    padding: 6rem 1.5rem;
     text-align: center;
+    transition: background 0.3s ease;
 }
 
 .hero-content {
@@ -141,7 +167,7 @@ img {
 .hero-title {
     font-size: 3rem;
     font-weight: 800;          /* extra bold — makes a strong first impression */
-    color: #1a1a1a;
+    color: var(--text-color);
     line-height: 1.2;          /* tighter line-height for large headings looks more polished */
     margin-bottom: 1.2rem;
     letter-spacing: -1px;      /* tighter letter spacing on big text = more premium look */
@@ -149,7 +175,7 @@ img {
 
 .hero-subtitle {
     font-size: 1.1rem;
-    color: #555555;
+    color: var(--text-color);
     margin-bottom: 2rem;
     line-height: 1.7;
 }
@@ -190,7 +216,7 @@ img {
 .section-header h2 {
     font-size: 2.2rem;
     font-weight: 700;
-    color: #1a1a1a;
+    color: var(--text-color);
     margin-bottom: 0.5rem;
 }
 
@@ -209,8 +235,8 @@ img {
 }
 
 .product-card {
-    background-color: #ffffff;
-    border-radius: 16px;              /* soft rounded corners — premium look */
+    background-color: var(--card-bg);
+    border-radius: 16px;             /* soft rounded corners — premium look */
     overflow: hidden;                 /* keeps the image's corners rounded too, matching the card */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);  /* subtle shadow so cards "lift" off the page */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -580,7 +606,20 @@ img {
 /* ===========================
    10. MOBILE NAVBAR (Hamburger Menu)
 =========================== */
+/* Theme toggle button — strip default button styling, match icon style */
+.theme-toggle {
+    background: none;         /* removes the default white button background */
+    border: none;             /* removes the default button border */
+    cursor: pointer;
+    font-size: 1.2rem;        /* matches the size of your other icons */
+    line-height: 1;
+    padding: 0;
+    transition: transform 0.2s ease;   /* same smooth hover animation as your other icons */
+}
 
+.theme-toggle:hover {
+    transform: scale(1.15);   /* same "grow slightly" hover effect as your other navbar icons */
+}
 /* Hamburger button — hidden by default (desktop) */
 .hamburger-btn {
     display: none;
@@ -659,5 +698,81 @@ img {
 
     .hero {
         padding: 3.5rem 1.5rem;
+    }
+}
+/* ===========================
+   11. PRODUCT DETAILS PAGE
+=========================== */
+.product-details {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+}
+
+.product-details-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;   /* two equal columns */
+    gap: 3rem;
+    align-items: start;
+}
+
+.product-details-image img {
+    width: 100%;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.product-details-info h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 0.8rem;
+}
+
+.product-details-price {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 1.2rem;
+}
+
+.product-details-description {
+    color: var(--text-color);
+    opacity: 0.8;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+.product-details-meta p {
+    color: var(--text-color);
+    opacity: 0.8;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.quantity-selector .qty-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 1.1rem;
+}
+
+.btn-add-cart-details {
+    width: 100%;
+    max-width: 300px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Stack into one column on smaller screens */
+@media (max-width: 768px) {
+    .product-details-container {
+        grid-template-columns: 1fr;
     }
 }

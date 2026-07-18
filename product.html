@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details | Novacart</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- ============ NAVBAR ============ -->
+    <header class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="logo">Novacart</a>
+
+            <button class="hamburger-btn" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="#">Shop</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </nav>
+
+            <div class="navbar-icons">
+                <button class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+                <a href="#" aria-label="Search">🔍</a>
+                <a href="#" aria-label="Wishlist">🤍</a>
+                <a href="#" aria-label="Cart">🛒 <span class="cart-count">0</span></a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============ PRODUCT DETAILS ============ -->
+    <section class="product-details">
+        <div class="product-details-container">
+
+            <!-- Left: Product image -->
+            <div class="product-details-image">
+                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600" alt="Classic Leather Watch" id="productImage">
+            </div>
+
+            <!-- Right: Product info -->
+            <div class="product-details-info">
+                <h1 id="productName">Classic Leather Watch</h1>
+                <p class="product-details-price" id="productPrice">₹7,499</p>
+
+                <p class="product-details-description">
+                    A timeless leather-strap watch designed for everyday elegance. Featuring a minimalist dial,
+                    durable stainless steel case, and a genuine leather band that ages beautifully over time.
+                    Perfect for both casual outings and formal occasions.
+                </p>
+
+                <div class="product-details-meta">
+                    <p><strong>Availability:</strong> In Stock</p>
+                    <p><strong>Category:</strong> Accessories</p>
+                </div>
+
+                <!-- Quantity selector -->
+                <div class="quantity-selector">
+                    <button class="qty-btn" id="decreaseQty">-</button>
+                    <span class="qty-value" id="qtyDisplay">1</span>
+                    <button class="qty-btn" id="increaseQty">+</button>
+                </div>
+
+                <button class="btn-primary btn-add-cart-details" id="addToCartDetailsBtn"
+                    data-id="1" data-name="Classic Leather Watch" data-price="7499"
+                    data-image="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600">
+                    Add to Cart
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
