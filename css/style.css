@@ -173,3 +173,102 @@ img {
     transform: translateY(-3px);    /* button lifts up slightly — nice tactile feedback */
     box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4); /* shadow grows on hover, enhances the "lift" */
 }
+/* ===========================
+   6. FEATURED PRODUCTS SECTION
+=========================== */
+.featured-products {
+    max-width: 1200px;
+    margin: 0 auto;         /* centers this whole section on the page */
+    padding: 5rem 1.5rem;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.section-header h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+}
+
+.section-header p {
+    color: #666666;
+    font-size: 1rem;
+}
+
+/* The grid that holds all product cards */
+.products-grid {
+    display: grid;
+    /* auto-fit + minmax = responsive grid: as many columns as fit,
+       each at least 250px wide, growing equally to fill space */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;    /* even spacing between cards, both horizontal and vertical */
+}
+
+.product-card {
+    background-color: #ffffff;
+    border-radius: 16px;              /* soft rounded corners — premium look */
+    overflow: hidden;                 /* keeps the image's corners rounded too, matching the card */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);  /* subtle shadow so cards "lift" off the page */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-6px);      /* card lifts up on hover */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);  /* shadow grows, enhances the lift effect */
+}
+
+.product-image {
+    width: 100%;
+    height: 260px;
+    overflow: hidden;    /* hides parts of the image that "overflow" when zoomed on hover */
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;   /* fills the box without stretching/distorting the image */
+    transition: transform 0.4s ease;
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.08);  /* image slightly zooms in on hover — premium e-commerce detail */
+}
+
+.product-info {
+    padding: 1.3rem;
+}
+
+.product-name {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 0.4rem;
+}
+
+.product-price {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #6c5ce7;      /* our accent purple, keeps colors consistent across the site */
+    margin-bottom: 1rem;
+}
+
+.btn-add-cart {
+    width: 100%;
+    padding: 0.7rem;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    border: none;             /* removes default button border */
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;          /* shows a hand cursor on hover, signals "this is clickable" */
+    transition: background-color 0.3s ease;
+}
+
+.btn-add-cart:hover {
+    background-color: #6c5ce7;   /* button turns purple (matching our accent) on hover */
+}
