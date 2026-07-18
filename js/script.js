@@ -1,4 +1,45 @@
 // ===========================
+// PRODUCT DATA
+// This is our single source of truth for all product info.
+// Both the homepage AND product details page use this same list.
+// ===========================
+const products = [
+    {
+        id: 1,
+        name: "Classic Leather Watch",
+        price: 7499,
+        image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600",
+        description: "A timeless leather-strap watch designed for everyday elegance. Featuring a minimalist dial, durable stainless steel case, and a genuine leather band that ages beautifully over time.",
+        category: "Accessories"
+    },
+    {
+        id: 2,
+        name: "Urban Sneakers",
+        price: 5299,
+        image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600",
+        description: "Lightweight, comfortable sneakers built for everyday city life. A versatile design that pairs effortlessly with casual or athletic outfits.",
+        category: "Footwear"
+    },
+    {
+        id: 3,
+        name: "Minimalist Handbag",
+        price: 9999,
+        image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600",
+        description: "A clean, structured handbag crafted from premium vegan leather. Spacious enough for daily essentials while keeping a sleek, minimal silhouette.",
+        category: "Accessories"
+    },
+    {
+
+        id: 4,
+        name: "Aviator Sunglasses",
+        price: 3749,
+        image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600",
+        description: "Classic aviator-style sunglasses with UV-protected lenses and a lightweight metal frame. A timeless accessory for any season.",
+        category: "Accessories"
+    }
+    
+];
+// ===========================
 // CART DATA & CORE LOGIC
 // ===========================
 
@@ -203,12 +244,38 @@ themeToggleBtn.addEventListener('click', function () {
 // Only run this code if we're actually on the product details page
 // (checks if the quantity display element exists on the current page)
 const qtyDisplay = document.getElementById('qtyDisplay');
+    if (qtyDisplay) {
+        // Read the "id" value from the page's URL (e.g., product.html?id=3 → gets "3")
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = Number(urlParams.get('id'));
 
-if (qtyDisplay) {
-    const decreaseBtn = document.getElementById('decreaseQty');
-    const increaseBtn = document.getElementById('increaseQty');
+    // Find the matching product from our data list
+
+    const currentProduct = products.find(p => p.id === productId);
     const addToCartDetailsBtn = document.getElementById('addToCartDetailsBtn');
 
+
+    if (currentProduct) {
+        // Fill in the page with this product's real details
+        document.getElementById('productImage').src = currentProduct.image;
+        document.getElementById('productImage').alt = currentProduct.name;
+        document.getElementById('productName').textContent = currentProduct.name;
+        document.getElementById('productPrice').textContent = `₹${currentProduct.price.toLocaleString('en-IN')}`;
+        document.getElementById('productDescription').textContent = currentProduct.description;
+        document.getElementById('productCategory').textContent = currentProduct.category;
+
+        // Update the page's browser tab title too
+        document.title = `${currentProduct.name} | Novacart`;
+
+        // Update the Add to Cart button's data-* attributes to match THIS product
+        addToCartDetailsBtn.dataset.id = currentProduct.id;
+        addToCartDetailsBtn.dataset.name = currentProduct.name;
+        addToCartDetailsBtn.dataset.price = currentProduct.price;
+        addToCartDetailsBtn.dataset.image = currentProduct.image;
+    }
+    const decreaseBtn = document.getElementById('decreaseQty');
+    const increaseBtn = document.getElementById('increaseQty');
+   
     let selectedQty = 1;   // tracks how many the user wants to add
 
     increaseBtn.addEventListener('click', function () {

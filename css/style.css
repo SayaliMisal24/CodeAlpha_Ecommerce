@@ -776,3 +776,8 @@ img {
         grid-template-columns: 1fr;
     }
 }
+.product-link {
+    text-decoration: none;
+    color: inherit;    /* makes the product name use the same color it normally would, not link-blue */
+    display: block;
+}
