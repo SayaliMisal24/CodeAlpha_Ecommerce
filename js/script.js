@@ -163,3 +163,13 @@ cartItemsContainer.addEventListener('click', function (e) {
 // Load any previously saved cart as soon as the page loads, and display it
 loadCartFromStorage();
 renderCart();
+// ===========================
+// MOBILE HAMBURGER MENU
+// ===========================
+const hamburgerBtn = document.querySelector('.hamburger-btn');
+const navLinks = document.querySelector('.nav-links');
+
+hamburgerBtn.addEventListener('click', function () {
+    hamburgerBtn.classList.toggle('active');   // toggles the X animation
+    navLinks.classList.toggle('active');       // toggles the menu sliding in/out
+});
