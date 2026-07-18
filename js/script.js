@@ -443,3 +443,43 @@ searchInput.addEventListener('input', function () {
         </a>
     `).join('');
 });
+// ===========================
+// FEATURED PRODUCTS RENDERING + FILTERING
+// ===========================
+const productsGrid = document.getElementById('productsGrid');
+
+function renderProducts(filter = 'all') {
+    if (!productsGrid) return;
+
+    const filteredProducts = filter === 'all'
+        ? products
+        : products.filter(p => p.category === filter);
+
+    productsGrid.innerHTML = filteredProducts.map(product => `
+        <div class="product-card">
+            <button class="wishlist-btn" data-id="${product.id}">🤍</button>
+            <a href="product.html?id=${product.id}" class="product-link">
+                <div class="product-image">
+                    <img src="${product.image}" alt="${product.name}">
+                </div>
+                <h3 class="product-name">${product.name}</h3>
+            </a>
+            <div class="product-info">
+                <p class="product-price">₹${product.price.toLocaleString('en-IN')}</p>
+                <button class="btn-add-cart" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}" data-image="${product.image}">Add to Cart</button>
+            </div>
+        </div>
+    `).join('');
+
+    refreshWishlistIcons();
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        renderProducts(this.dataset.filter);
+    });
+});
+
+renderProducts();
