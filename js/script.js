@@ -26,7 +26,28 @@ function addToCart(id, name, price, image) {
 
     renderCart();   // re-draws the cart sidebar to show the updated contents
 }
+// Function: changes an item's quantity, or removes it if it drops to 0
+function updateQuantity(id, action) {
+    const item = cart.find(item => item.id === id);
+    if (!item) return;   // safety check — do nothing if item somehow isn't found
 
+    if (action === 'increase') {
+        item.quantity += 1;
+    } else if (action === 'decrease') {
+        item.quantity -= 1;
+        if (item.quantity <= 0) {
+            removeFromCart(id);   // if quantity hits 0, remove the item entirely
+            return;
+        }
+    }
+    renderCart();
+}
+
+// Function: removes an item from the cart completely
+function removeFromCart(id) {
+    cart = cart.filter(item => item.id !== id);   // keeps every item EXCEPT the one matching this id
+    renderCart();
+}
 // Function: re-draws (renders) the entire cart sidebar based on current cart data
 function renderCart() {
     // If the cart is empty, show the empty message
@@ -44,6 +65,12 @@ function renderCart() {
             <div class="cart-item-details">
                 <h4>${item.name}</h4>
                 <p>₹${item.price}</p>
+                <div class="cart-item-controls">
+                    <button class="qty-btn" data-action="decrease" data-id="${item.id}">-</button>
+                    <span class="qty-value">${item.quantity}</span>
+                    <button class="qty-btn" data-action="increase" data-id="${item.id}">+</button>
+                    <button class="remove-btn" data-id="${item.id}">🗑</button>
+                </div>
             </div>
         </div>
     `).join('');
@@ -105,3 +132,17 @@ cartCloseBtn.addEventListener('click', closeCart);
 
 // When the dark overlay is clicked, close the cart too (common UX pattern)
 cartOverlay.addEventListener('click', closeCart);
+// Event delegation: listen for clicks on the whole cart container,
+// then check WHAT was actually clicked inside it
+cartItemsContainer.addEventListener('click', function (e) {
+    const id = e.target.dataset.id;   // gets the id from whichever element was clicked
+
+    if (e.target.classList.contains('qty-btn')) {
+        const action = e.target.dataset.action;
+        updateQuantity(id, action);
+    }
+
+    if (e.target.classList.contains('remove-btn')) {
+        removeFromCart(id);
+    }
+});
