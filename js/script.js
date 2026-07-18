@@ -48,8 +48,22 @@ function removeFromCart(id) {
     cart = cart.filter(item => item.id !== id);   // keeps every item EXCEPT the one matching this id
     renderCart();
 }
+// Function: saves the current cart array into the browser's Local Storage
+function saveCartToStorage() {
+    // Local Storage only stores TEXT, so we convert our array into a JSON string
+    localStorage.setItem('novacart_cart', JSON.stringify(cart));
+}
+
+// Function: loads a previously saved cart from Local Storage (if any exists)
+function loadCartFromStorage() {
+    const savedCart = localStorage.getItem('novacart_cart');
+    if (savedCart) {
+        cart = JSON.parse(savedCart);   // convert the saved JSON string back into a real array
+    }
+}
 // Function: re-draws (renders) the entire cart sidebar based on current cart data
 function renderCart() {
+    saveCartToStorage();
     // If the cart is empty, show the empty message
     if (cart.length === 0) {
         cartItemsContainer.innerHTML = '<p class="cart-empty-msg">Your cart is empty.</p>';
@@ -146,3 +160,6 @@ cartItemsContainer.addEventListener('click', function (e) {
         removeFromCart(id);
     }
 });
+// Load any previously saved cart as soon as the page loads, and display it
+loadCartFromStorage();
+renderCart();
