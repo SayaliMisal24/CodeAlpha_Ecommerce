@@ -370,3 +370,53 @@ img {
     font-size: 0.85rem;
     color: #888888;
 }
+/* ===========================
+   8. CATEGORIES SECTION
+=========================== */
+.categories {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 1.5rem;
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+.category-card {
+    position: relative;       /* needed so the overlay can be positioned inside it */
+    display: block;
+    height: 280px;
+    border-radius: 16px;
+    overflow: hidden;         /* keeps the image and overlay within the rounded corners */
+    text-decoration: none;
+}
+
+.category-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.category-card:hover img {
+    transform: scale(1.1);    /* image zooms in on hover, same premium effect as product cards */
+}
+
+/* The dark overlay that sits on top of the image */
+.category-overlay {
+    position: absolute;       /* takes it out of normal flow, lets it sit exactly on top of the image */
+    inset: 0;                 /* shorthand for top:0; right:0; bottom:0; left:0 — covers the entire card */
+    background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 60%, transparent 100%);
+    display: flex;
+    align-items: flex-end;    /* pushes the text content to the BOTTOM of the card */
+    padding: 1.5rem;
+}
+
+.category-overlay h3 {
+    color: #ffffff;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
