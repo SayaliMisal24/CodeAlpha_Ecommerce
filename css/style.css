@@ -123,3 +123,53 @@ img {
     margin-left: 2px;
     vertical-align: top;
 }
+/* ===========================
+   5. HERO SECTION
+=========================== */
+.hero {
+    /* A soft diagonal gradient — modern and premium-looking */
+    background: linear-gradient(135deg, #f3f0ff 0%, #e8e4ff 100%);
+    padding: 6rem 1.5rem;   /* generous top/bottom space — premium sites "breathe" */
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 700px;      /* keeps text from stretching too wide, easier to read */
+    margin: 0 auto;        /* centers the content block horizontally */
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 800;          /* extra bold — makes a strong first impression */
+    color: #1a1a1a;
+    line-height: 1.2;          /* tighter line-height for large headings looks more polished */
+    margin-bottom: 1.2rem;
+    letter-spacing: -1px;      /* tighter letter spacing on big text = more premium look */
+}
+
+.hero-subtitle {
+    font-size: 1.1rem;
+    color: #555555;
+    margin-bottom: 2rem;
+    line-height: 1.7;
+}
+
+/* Reusable "premium button" style — we'll use this class again later too */
+.btn-primary {
+    display: inline-block;
+    background-color: #6c5ce7;     /* our accent purple, matching the navbar hover color */
+    color: #ffffff;
+    padding: 0.9rem 2.2rem;
+    border-radius: 50px;            /* fully rounded "pill" button — modern trend */
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;      /* smooth animation for the hover effect below */
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3); /* soft colored shadow under the button */
+}
+
+.btn-primary:hover {
+    background-color: #5a4bd4;      /* slightly darker purple on hover */
+    transform: translateY(-3px);    /* button lifts up slightly — nice tactile feedback */
+    box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4); /* shadow grows on hover, enhances the "lift" */
+}
