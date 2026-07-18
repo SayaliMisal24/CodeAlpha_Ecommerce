@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Details | Novacart</title>
+    <title>My Wishlist | Novacart</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -37,43 +37,15 @@
         </div>
     </header>
 
-    <!-- ============ PRODUCT DETAILS ============ -->
-    <section class="product-details">
-        <div class="product-details-container">
+    <!-- ============ WISHLIST CONTENT ============ -->
+    <section class="wishlist-page">
+        <div class="section-header">
+            <h2>My Wishlist</h2>
+            <p>Products you've saved for later</p>
+        </div>
 
-            <!-- Left: Product image -->
-            <div class="product-details-image">
-                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600" alt="Classic Leather Watch" id="productImage">
-            </div>
-
-            <!-- Right: Product info -->
-            <div class="product-details-info">
-                <h1 id="productName">Classic Leather Watch</h1>
-                <p class="product-details-price" id="productPrice">₹7,499</p>
-
-                <p class="product-details-description" id="productDescription">
-                    Loading...
-                </p>
-
-                <div class="product-details-meta">
-                    <p><strong>Availability:</strong> In Stock</p>
-                    <p><strong>Category:</strong> <span id="productCategory">-</span></p>
-                </div>
-
-                <!-- Quantity selector -->
-                <div class="quantity-selector">
-                    <button class="qty-btn" id="decreaseQty">-</button>
-                    <span class="qty-value" id="qtyDisplay">1</span>
-                    <button class="qty-btn" id="increaseQty">+</button>
-                </div>
-
-                <button class="btn-primary btn-add-cart-details" id="addToCartDetailsBtn"
-                    data-id="1" data-name="Classic Leather Watch" data-price="7499"
-                    data-image="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600">
-                    Add to Cart
-                </button>
-            </div>
-
+        <div class="wishlist-grid" id="wishlistGrid">
+            <!-- Wishlist items will be inserted here by JavaScript -->
         </div>
     </section>
 
@@ -98,6 +70,7 @@
             <a href="#" class="btn-primary cart-checkout-btn">Checkout</a>
         </div>
     </aside>
+
     <script src="js/script.js"></script>
 </body>
 

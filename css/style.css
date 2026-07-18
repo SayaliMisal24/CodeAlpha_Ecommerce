@@ -233,6 +233,17 @@ img {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 2rem;    /* even spacing between cards, both horizontal and vertical */
 }
+.wishlist-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 1.5rem;
+}
+
+.wishlist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
 
 .product-card {
     background-color: var(--card-bg);

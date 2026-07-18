@@ -131,6 +131,35 @@ function refreshWishlistIcons() {
         }
     });
 }
+// Renders the wishlist page grid (only runs if that grid exists on the current page)
+function renderWishlistPage() {
+    const wishlistGrid = document.getElementById('wishlistGrid');
+    if (!wishlistGrid) return;   // stop here if we're not on the wishlist page
+
+    if (wishlist.length === 0) {
+        wishlistGrid.innerHTML = '<p class="cart-empty-msg">Your wishlist is empty. Start adding products you love!</p>';
+        return;
+    }
+
+    // Get the full product details for each ID saved in the wishlist
+    const likedProducts = products.filter(p => wishlist.includes(p.id));
+
+    wishlistGrid.innerHTML = likedProducts.map(product => `
+        <div class="product-card">
+            <button class="wishlist-btn active" data-id="${product.id}">❤️</button>
+            <a href="product.html?id=${product.id}" class="product-link">
+                <div class="product-image">
+                    <img src="${product.image}" alt="${product.name}">
+                </div>
+                <h3 class="product-name">${product.name}</h3>
+            </a>
+            <div class="product-info">
+                <p class="product-price">₹${product.price.toLocaleString('en-IN')}</p>
+                <button class="btn-add-cart" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}" data-image="${product.image}">Add to Cart</button>
+            </div>
+        </div>
+    `).join('');
+}
 
 // Toggle a product in/out of the wishlist
 function toggleWishlist(id) {
@@ -154,6 +183,7 @@ document.addEventListener('click', function (e) {
 // Load saved wishlist and update icons as soon as the page opens
 loadWishlistFromStorage();
 refreshWishlistIcons();
+renderWishlistPage();
 // Function: re-draws (renders) the entire cart sidebar based on current cart data
 function renderCart() {
     saveCartToStorage();
@@ -195,16 +225,15 @@ function updateCartCount() {
 }
 
 // Attach click behavior to EVERY "Add to Cart" button on the page
-document.querySelectorAll('.btn-add-cart').forEach(button => {
-    button.addEventListener('click', function () {
-        // Read the product's info from its data-* attributes
-        const id = this.dataset.id;
-        const name = this.dataset.name;
-        const price = Number(this.dataset.price);   // convert text to a number
-        const image = this.dataset.image;
-
+// Using event delegation so this works even for buttons added dynamically (like on the wishlist page)
+document.addEventListener('click', function (e) {
+    if (e.target.classList.contains('btn-add-cart')) {
+        const id = e.target.dataset.id;
+        const name = e.target.dataset.name;
+        const price = Number(e.target.dataset.price);
+        const image = e.target.dataset.image;
         addToCart(id, name, price, image);
-    });
+    }
 });
 // ===========================
 // CART OPEN/CLOSE LOGIC
