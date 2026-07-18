@@ -573,3 +573,23 @@ const scrollObserver = new IntersectionObserver(function (entries) {
 document.querySelectorAll('.animate-on-scroll').forEach(el => {
     scrollObserver.observe(el);
 });
+// ===========================
+// BACK TO TOP BUTTON
+// ===========================
+const backToTopBtn = document.getElementById('backToTopBtn');
+
+if (backToTopBtn) {
+    // Show/hide the button based on how far the user has scrolled
+    window.addEventListener('scroll', function () {
+        if (window.scrollY > 400) {   // after scrolling down 400px
+            backToTopBtn.classList.add('visible');
+        } else {
+            backToTopBtn.classList.remove('visible');
+        }
+    });
+
+    // Smoothly scroll back to the top when clicked
+    backToTopBtn.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}

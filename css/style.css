@@ -1310,3 +1310,39 @@ img {
     opacity: 1;
     transform: translateY(0);      /* settles into its natural position */
 }
+/* ===========================
+   21. BACK TO TOP BUTTON
+=========================== */
+.back-to-top {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background-color: var(--accent);
+    color: #ffffff;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.35);
+    z-index: 150;
+    opacity: 0;              /* hidden by default */
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.back-to-top:hover {
+    background-color: #5a4bd4;
+    transform: translateY(-3px);
+}
