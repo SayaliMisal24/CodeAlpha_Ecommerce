@@ -26,3 +26,100 @@ img {
     max-width: 100%;    /* images never overflow their container — critical for responsive design */
     display: block;     /* removes small unwanted gap that appears below images by default */
 }
+/* ===========================
+   4. NAVBAR STYLING
+=========================== */
+.navbar {
+    position: sticky;      /* keeps navbar visible even when the user scrolls down */
+    top: 0;                 /* sticks to the very top of the screen */
+    z-index: 100;           /* ensures navbar stays ABOVE other content, not hidden behind it */
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); /* soft shadow — gives a subtle "floating" look */
+}
+
+.navbar-container {
+    max-width: 1200px;      /* prevents content from stretching too wide on large screens */
+    margin: 0 auto;         /* centers the container horizontally on the page */
+    padding: 1rem 1.5rem;   /* space inside the navbar (top/bottom, left/right) */
+    display: flex;          /* arranges logo, links, icons in a ROW instead of stacked */
+    align-items: center;    /* vertically centers all items */
+    justify-content: space-between; /* pushes logo left, icons right, spreads them out evenly */
+}
+
+/* Logo styling */
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;           /* bold */
+    color: #1a1a1a;
+    text-decoration: none;      /* removes the default underline on links */
+    letter-spacing: -0.5px;     /* slightly tighter letter spacing — looks more premium on big text */
+}
+
+/* Navigation links container */
+.nav-links {
+    display: flex;
+    gap: 2rem;              /* even spacing between Home/Shop/About/Contact */
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #4a4a4a;
+    font-weight: 500;
+    font-size: 0.95rem;
+    position: relative;     /* needed so our hover underline animation can be positioned correctly */
+    transition: color 0.3s ease; /* smooth color change on hover instead of instant snap */
+}
+
+/* Hover effect: underline that grows from left to right */
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #6c5ce7;  /* our accent color — a modern purple */
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #6c5ce7;
+}
+
+.nav-links a:hover::after {
+    width: 100%;   /* underline grows to full width on hover */
+}
+
+.nav-links a.active {
+    color: #6c5ce7;   /* highlights the current page link */
+}
+
+/* Icons on the right (search, wishlist, cart) */
+.navbar-icons {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.navbar-icons a {
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: #1a1a1a;
+    position: relative;
+    transition: transform 0.2s ease; /* slight bounce effect on hover */
+}
+
+.navbar-icons a:hover {
+    transform: scale(1.15);  /* icon grows slightly on hover — nice tactile feedback */
+}
+
+.cart-count {
+    background-color: #6c5ce7;
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 50px;     /* fully rounded pill shape */
+    margin-left: 2px;
+    vertical-align: top;
+}
