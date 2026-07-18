@@ -1256,3 +1256,44 @@ img {
     line-height: 1.7;
     padding-bottom: 1.3rem;
 }
+/* ===========================
+   19. TESTIMONIALS
+=========================== */
+.testimonials-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 1.5rem;
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.testimonial-card {
+    background-color: var(--card-bg);
+    padding: 1.8rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+}
+
+.stars {
+    color: #f5a623;   /* gold color for star ratings */
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.testimonial-text {
+    color: var(--text-color);
+    opacity: 0.85;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+.testimonial-author {
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
