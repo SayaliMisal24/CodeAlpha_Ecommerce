@@ -420,3 +420,98 @@ img {
     font-size: 1.4rem;
     font-weight: 700;
 }
+/* ===========================
+   9. CART SIDEBAR
+=========================== */
+
+/* Dark background overlay behind the cart */
+.cart-overlay {
+    position: fixed;         /* stays in place even when the page scrolls */
+    inset: 0;                /* covers the entire screen */
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;               /* invisible by default */
+    visibility: hidden;       /* also unclickable by default */
+    transition: opacity 0.3s ease;
+    z-index: 200;
+}
+
+/* When this class is added by JavaScript, the overlay becomes visible */
+.cart-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* The sliding cart panel itself */
+.cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;                 /* anchored to the right edge */
+    width: 380px;
+    max-width: 90%;           /* on small screens, don't let it exceed 90% of screen width */
+    height: 100%;
+    background-color: #ffffff;
+    z-index: 201;              /* sits above the overlay */
+    transform: translateX(100%);  /* pushes it completely off-screen to the right */
+    transition: transform 0.35s ease;
+    display: flex;
+    flex-direction: column;    /* stacks header, items, footer vertically */
+    box-shadow: -5px 0 25px rgba(0,0,0,0.1);
+}
+
+/* When this class is added by JavaScript, it slides into view */
+.cart-sidebar.active {
+    transform: translateX(0);
+}
+
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.cart-header h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.cart-close {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #666666;
+    line-height: 1;
+}
+
+.cart-items {
+    flex: 1;                  /* takes up all remaining vertical space between header and footer */
+    overflow-y: auto;         /* if there are many items, this area scrolls instead of the whole page */
+    padding: 1.5rem;
+}
+
+.cart-empty-msg {
+    text-align: center;
+    color: #999999;
+    margin-top: 2rem;
+}
+
+.cart-footer {
+    padding: 1.5rem;
+    border-top: 1px solid #eeeeee;
+}
+
+.cart-total-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.cart-checkout-btn {
+    display: block;
+    text-align: center;
+    width: 100%;
+}
