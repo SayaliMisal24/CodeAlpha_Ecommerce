@@ -1104,3 +1104,100 @@ img {
         grid-template-columns: 1fr;
     }
 }
+/* ===========================
+   16. ABOUT PAGE
+=========================== */
+.about-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+}
+
+.about-content p {
+    color: var(--text-color);
+    opacity: 0.85;
+    line-height: 1.8;
+    margin-bottom: 1.2rem;
+}
+
+.about-values {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+}
+
+.value-card {
+    background-color: var(--card-bg);
+    padding: 1.8rem;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    text-align: center;
+}
+
+.value-card h3 {
+    color: var(--accent);
+    font-size: 1.1rem;
+    margin-bottom: 0.6rem;
+}
+
+.value-card p {
+    color: var(--text-color);
+    opacity: 0.8;
+    font-size: 0.9rem;
+}
+
+/* ===========================
+   17. CONTACT PAGE
+=========================== */
+.contact-page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+}
+
+.contact-container {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 3rem;
+}
+
+.contact-info-item {
+    margin-bottom: 1.8rem;
+}
+
+.contact-info-item h3 {
+    color: var(--text-color);
+    font-size: 1.05rem;
+    margin-bottom: 0.4rem;
+}
+
+.contact-info-item p {
+    color: var(--text-color);
+    opacity: 0.8;
+    font-size: 0.95rem;
+}
+
+.contact-form .form-group textarea {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    outline: none;
+    font-family: inherit;   /* makes the textarea use the same font as the rest of the site */
+    resize: vertical;        /* lets users resize it up/down only, not sideways */
+}
+
+.contact-form button {
+    border: none;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .contact-container {
+        grid-template-columns: 1fr;
+    }
+}
