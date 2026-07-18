@@ -385,3 +385,61 @@ const qtyDisplay = document.getElementById('qtyDisplay');
         openCart();   // automatically open the cart so the user sees it was added
     });
 }
+// ===========================
+// SEARCH FUNCTIONALITY
+// ===========================
+const searchToggleBtns = document.querySelectorAll('.search-toggle');
+const searchOverlay = document.querySelector('.search-overlay');
+const searchInput = document.getElementById('searchInput');
+const searchCloseBtn = document.querySelector('.search-close');
+const searchResults = document.getElementById('searchResults');
+
+function openSearch() {
+    searchOverlay.classList.add('active');
+    searchInput.value = '';
+    searchResults.innerHTML = '';
+    searchInput.focus();   // automatically puts the cursor in the input, ready to type
+}
+
+function closeSearch() {
+    searchOverlay.classList.remove('active');
+}
+
+searchToggleBtns.forEach(btn => {
+    btn.addEventListener('click', openSearch);
+});
+
+searchCloseBtn.addEventListener('click', closeSearch);
+
+// Also close if clicking the dark background area (not the search box itself)
+searchOverlay.addEventListener('click', function (e) {
+    if (e.target === searchOverlay) {
+        closeSearch();
+    }
+});
+
+// Runs every time the user types in the search box
+searchInput.addEventListener('input', function () {
+    const query = this.value.toLowerCase().trim();
+
+    if (query === '') {
+        searchResults.innerHTML = '';
+        return;
+    }
+
+    // Filter products whose name includes the typed text
+    const matches = products.filter(p => p.name.toLowerCase().includes(query));
+
+    if (matches.length === 0) {
+        searchResults.innerHTML = '<p class="cart-empty-msg">No products found.</p>';
+        return;
+    }
+
+    searchResults.innerHTML = matches.map(product => `
+        <a href="product.html?id=${product.id}" class="search-result-item">
+            <img src="${product.image}" alt="${product.name}">
+            <span>${product.name}</span>
+            <span class="price">₹${product.price.toLocaleString('en-IN')}</span>
+        </a>
+    `).join('');
+});

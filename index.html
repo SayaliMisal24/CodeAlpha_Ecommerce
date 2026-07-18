@@ -40,8 +40,8 @@
             <!-- Right side icons: search, cart, wishlist -->
             <div class="navbar-icons">
               <button class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
-                <a href="#" aria-label="Search">🔍</a>
-                <a href="wishlist.html" aria-label="Wishlist">🤍</a>
+                <button class="search-toggle" aria-label="Search">🔍</button>
+                <a href="" aria-label="Wishlist">🤍</a>
                 <a href="#" aria-label="Cart">🛒 <span class="cart-count">0</span></a>
             </div>
 
@@ -214,6 +214,14 @@
             <p>&copy; 2026 Novacart. All rights reserved.</p>
         </div>
     </footer>
+    <!-- ============ SEARCH OVERLAY ============ -->
+    <div class="search-overlay">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search products..." autocomplete="off">
+            <button class="search-close" aria-label="Close search">&times;</button>
+        </div>
+        <div class="search-results" id="searchResults"></div>
+    </div>
     <!-- ============ CART SIDEBAR ============ -->
     <div class="cart-overlay"></div>
 

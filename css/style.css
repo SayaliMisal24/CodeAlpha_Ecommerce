@@ -627,10 +627,23 @@ img {
     padding: 0;
     transition: transform 0.2s ease;   /* same smooth hover animation as your other icons */
 }
+.search-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+    padding: 0;
+    transition: transform 0.2s ease;
+}
 
+.search-toggle:hover {
+    transform: scale(1.15);
+}
 .theme-toggle:hover {
     transform: scale(1.15);   /* same "grow slightly" hover effect as your other navbar icons */
 }
+
 /* Hamburger button — hidden by default (desktop) */
 .hamburger-btn {
     display: none;
@@ -830,4 +843,90 @@ img {
     0% { transform: scale(1); }
     50% { transform: scale(1.3); }
     100% { transform: scale(1); }
+}
+/* ===========================
+   13. SEARCH OVERLAY
+=========================== */
+.search-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.6);
+    z-index: 300;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    padding: 5vh 1.5rem;
+    overflow-y: auto;
+}
+
+.search-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.search-box {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0.5rem 0.5rem 1.2rem;
+}
+
+.search-box input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 1.1rem;
+    padding: 0.8rem 0;
+    color: var(--text-color);
+}
+
+.search-close {
+    background: none;
+    border: none;
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: #999999;
+    padding: 0 0.8rem;
+}
+
+.search-results {
+    max-width: 600px;
+    margin: 1rem auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.search-result-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background-color: var(--card-bg);
+    padding: 0.8rem;
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--text-color);
+    transition: transform 0.2s ease;
+}
+
+.search-result-item:hover {
+    transform: translateX(4px);
+}
+
+.search-result-item img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.search-result-item .price {
+    margin-left: auto;
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.9rem;
 }
