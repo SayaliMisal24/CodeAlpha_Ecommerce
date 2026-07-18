@@ -272,3 +272,101 @@ img {
 .btn-add-cart:hover {
     background-color: #6c5ce7;   /* button turns purple (matching our accent) on hover */
 }
+/* ===========================
+   7. FOOTER
+=========================== */
+.footer {
+    background-color: #1a1a1a;   /* dark background — creates strong contrast, anchors the page */
+    color: #cccccc;
+    padding: 4rem 1.5rem 0;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    /* 4 equal-width columns on large screens, wraps automatically on smaller ones */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2.5rem;
+    padding-bottom: 3rem;
+}
+
+.footer-logo {
+    color: #ffffff;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.footer-col p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: #aaaaaa;
+}
+
+.footer-col h4 {
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+}
+
+/* Remove default list styling (bullets) and add spacing between links */
+.footer-col ul {
+    list-style: none;   /* removes the default bullet points */
+}
+
+.footer-col ul li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-col ul li a {
+    color: #aaaaaa;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.footer-col ul li a:hover {
+    color: #ffffff;    /* link brightens on hover — simple, clean feedback */
+}
+
+/* Newsletter form */
+.newsletter-form {
+    display: flex;
+    margin-top: 1rem;
+}
+
+.newsletter-form input {
+    flex: 1;                       /* input takes up all available space, button stays fixed size */
+    padding: 0.7rem 1rem;
+    border: none;
+    border-radius: 8px 0 0 8px;    /* rounded only on the left side, since button attaches on the right */
+    outline: none;                  /* removes default blue focus outline (we could add a custom one, but keeping simple for now) */
+    font-size: 0.9rem;
+}
+
+.newsletter-form button {
+    padding: 0.7rem 1.2rem;
+    background-color: #6c5ce7;
+    color: #ffffff;
+    border: none;
+    border-radius: 0 8px 8px 0;    /* rounded only on the right side — connects seamlessly with the input */
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.newsletter-form button:hover {
+    background-color: #5a4bd4;
+}
+
+/* Bottom copyright bar */
+.footer-bottom {
+    border-top: 1px solid #333333;   /* thin line separating columns from the copyright bar */
+    text-align: center;
+    padding: 1.5rem 0;
+    font-size: 0.85rem;
+    color: #888888;
+}
