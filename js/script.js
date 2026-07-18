@@ -102,6 +102,58 @@ function loadCartFromStorage() {
         cart = JSON.parse(savedCart);   // convert the saved JSON string back into a real array
     }
 }
+// ===========================
+// WISHLIST LOGIC
+// ===========================
+let wishlist = [];   // array of product IDs the user has liked
+
+function saveWishlistToStorage() {
+    localStorage.setItem('novacart_wishlist', JSON.stringify(wishlist));
+}
+
+function loadWishlistFromStorage() {
+    const saved = localStorage.getItem('novacart_wishlist');
+    if (saved) {
+        wishlist = JSON.parse(saved);
+    }
+}
+
+// Updates every heart button on the page to match the current wishlist state
+function refreshWishlistIcons() {
+    document.querySelectorAll('.wishlist-btn').forEach(btn => {
+        const id = Number(btn.dataset.id);
+        if (wishlist.includes(id)) {
+            btn.textContent = '❤️';
+            btn.classList.add('active');
+        } else {
+            btn.textContent = '🤍';
+            btn.classList.remove('active');
+        }
+    });
+}
+
+// Toggle a product in/out of the wishlist
+function toggleWishlist(id) {
+    if (wishlist.includes(id)) {
+        wishlist = wishlist.filter(itemId => itemId !== id);   // remove it
+    } else {
+        wishlist.push(id);   // add it
+    }
+    saveWishlistToStorage();
+    refreshWishlistIcons();
+}
+
+// Listen for clicks on ANY wishlist heart button (event delegation, since cards can vary per page)
+document.addEventListener('click', function (e) {
+    if (e.target.classList.contains('wishlist-btn')) {
+        const id = Number(e.target.dataset.id);
+        toggleWishlist(id);
+    }
+});
+
+// Load saved wishlist and update icons as soon as the page opens
+loadWishlistFromStorage();
+refreshWishlistIcons();
 // Function: re-draws (renders) the entire cart sidebar based on current cart data
 function renderCart() {
     saveCartToStorage();
