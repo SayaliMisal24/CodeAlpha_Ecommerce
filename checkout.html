@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Novacart</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- ============ NAVBAR ============ -->
+    <header class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="logo">Novacart</a>
+
+            <button class="hamburger-btn" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="#">Shop</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </nav>
+
+            <div class="navbar-icons">
+                <button class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+                <button class="search-toggle" aria-label="Search">🔍</button>
+                <a href="wishlist.html" aria-label="Wishlist">🤍</a>
+                <a href="#" aria-label="Cart">🛒 <span class="cart-count">0</span></a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============ CHECKOUT ============ -->
+    <section class="checkout-page">
+        <div class="section-header">
+            <h2>Checkout</h2>
+            <p>Review your order and enter shipping details</p>
+        </div>
+
+        <div class="checkout-container">
+
+            <!-- Left: Shipping form -->
+            <div class="checkout-form">
+                <h3>Shipping Details</h3>
+                <form id="checkoutForm">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" id="address" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" id="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="pincode">PIN Code</label>
+                            <input type="text" id="pincode" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+
+                    <h3>Payment Method</h3>
+                    <div class="payment-options">
+                        <label class="payment-option">
+                            <input type="radio" name="payment" checked> Cash on Delivery
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment"> Credit/Debit Card
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment"> UPI
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-primary checkout-submit-btn">Place Order</button>
+                </form>
+            </div>
+
+            <!-- Right: Order summary -->
+            <div class="checkout-summary">
+                <h3>Order Summary</h3>
+                <div id="checkoutItems"></div>
+                <div class="checkout-total-row">
+                    <span>Total</span>
+                    <span id="checkoutTotal">₹0</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ============ SEARCH OVERLAY ============ -->
+    <div class="search-overlay">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search products..." autocomplete="off">
+            <button class="search-close" aria-label="Close search">&times;</button>
+        </div>
+        <div class="search-results" id="searchResults"></div>
+    </div>
+
+    <!-- ============ CART SIDEBAR ============ -->
+    <div class="cart-overlay"></div>
+
+    <aside class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="cart-close" aria-label="Close cart">&times;</button>
+        </div>
+
+        <div class="cart-items">
+            <p class="cart-empty-msg">Your cart is empty.</p>
+        </div>
+
+        <div class="cart-footer">
+            <div class="cart-total-row">
+                <span>Total:</span>
+                <span class="cart-total-amount">₹0</span>
+            </div>
+            <a href="#" class="btn-primary cart-checkout-btn">Checkout</a>
+        </div>
+    </aside>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>

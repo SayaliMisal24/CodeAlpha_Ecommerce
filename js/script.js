@@ -483,3 +483,53 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 });
 
 renderProducts();
+// ===========================
+// CHECKOUT PAGE
+// ===========================
+const checkoutItemsContainer = document.getElementById('checkoutItems');
+const checkoutTotal = document.getElementById('checkoutTotal');
+const checkoutForm = document.getElementById('checkoutForm');
+
+function renderCheckout() {
+    if (!checkoutItemsContainer) return;   // only run on the checkout page
+
+    if (cart.length === 0) {
+        checkoutItemsContainer.innerHTML = '<p class="cart-empty-msg">Your cart is empty.</p>';
+        checkoutTotal.textContent = '₹0';
+        return;
+    }
+
+    checkoutItemsContainer.innerHTML = cart.map(item => `
+        <div class="checkout-item">
+            <img src="${item.image}" alt="${item.name}">
+            <div class="checkout-item-info">
+                <h4>${item.name} × ${item.quantity}</h4>
+                <p>₹${(item.price * item.quantity).toLocaleString('en-IN')}</p>
+            </div>
+        </div>
+    `).join('');
+
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    checkoutTotal.textContent = `₹${total.toLocaleString('en-IN')}`;
+}
+
+if (checkoutForm) {
+    checkoutForm.addEventListener('submit', function (e) {
+        e.preventDefault();   // stops the form from actually trying to submit/reload the page
+
+        if (cart.length === 0) {
+            alert('Your cart is empty. Please add items before placing an order.');
+            return;
+        }
+
+        alert('Order placed successfully! (This is a UI demo — no real payment was processed.)');
+
+        // Clear the cart after "placing" the order
+        cart = [];
+        saveCartToStorage();
+        renderCheckout();
+        checkoutForm.reset();   // clears all the typed form fields
+    });
+}
+
+renderCheckout();
