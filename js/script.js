@@ -545,3 +545,12 @@ if (contactForm) {
         contactForm.reset();
     });
 }
+// ===========================
+// FAQ ACCORDION
+// ===========================
+document.querySelectorAll('.faq-question').forEach(question => {
+    question.addEventListener('click', function () {
+        const faqItem = this.parentElement;   // the .faq-item div containing this button
+        faqItem.classList.toggle('active');
+    });
+});

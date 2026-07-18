@@ -1201,3 +1201,58 @@ img {
         grid-template-columns: 1fr;
     }
 }
+/* ===========================
+   18. FAQ SECTION
+=========================== */
+.faq-section {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 5rem 1.5rem;
+}
+
+.faq-item {
+    border-bottom: 1px solid #dddddd;
+}
+
+.faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 1.3rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-color);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.faq-icon {
+    font-size: 1.3rem;
+    color: var(--accent);
+    transition: transform 0.3s ease;
+}
+
+/* Rotates the + into an x-like shape when the FAQ item is open */
+.faq-item.active .faq-icon {
+    transform: rotate(45deg);
+}
+
+.faq-answer {
+    max-height: 0;              /* collapsed by default */
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 200px;          /* expands to reveal the answer when active */
+}
+
+.faq-answer p {
+    color: var(--text-color);
+    opacity: 0.8;
+    line-height: 1.7;
+    padding-bottom: 1.3rem;
+}
