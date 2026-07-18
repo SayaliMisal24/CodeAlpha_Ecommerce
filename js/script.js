@@ -554,3 +554,22 @@ document.querySelectorAll('.faq-question').forEach(question => {
         faqItem.classList.toggle('active');
     });
 });
+// ===========================
+// SCROLL ANIMATIONS (Intersection Observer)
+// ===========================
+
+// Creates an "observer" that watches elements and tells us when they enter the screen
+const scrollObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {   // true when the element becomes visible on screen
+            entry.target.classList.add('visible');
+        }
+    });
+}, {
+    threshold: 0.15   // triggers when 15% of the element is visible
+});
+
+// Tell the observer to watch every element with our animation class
+document.querySelectorAll('.animate-on-scroll').forEach(el => {
+    scrollObserver.observe(el);
+});
