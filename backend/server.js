@@ -3,6 +3,7 @@ require('dotenv').config();
 const { MongoClient } = require('mongodb');
 
 const app = express();
+app.use(express.json());   // allows our server to understand JSON data sent from the frontend
 const PORT = 3000;
 
 const uri = process.env.MONGO_URI;
@@ -27,12 +28,18 @@ app.get('/', (req, res) => {
 });
 
 // Fetches ALL products from the database
-app.get('/api/products', async (req, res) => {
+// Saves a new order into the database
+app.post('/api/orders', async (req, res) => {
     try {
-        const products = await db.collection('products').find().toArray();
-        res.json(products);
+        const order = {
+            ...req.body,           // everything the frontend sent (items, shipping info, total)
+            createdAt: new Date()  // stamps the order with the current date/time
+        };
+
+        const result = await db.collection('orders').insertOne(order);
+        res.status(201).json({ message: 'Order placed successfully!', orderId: result.insertedId });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch products' });
+        res.status(500).json({ error: 'Failed to place order' });
     }
 });
 
