@@ -1,4 +1,15 @@
 // ===========================
+// PAGE LOADER
+// ===========================
+window.addEventListener('load', function () {
+    const pageLoader = document.getElementById('pageLoader');
+    if (pageLoader) {
+        setTimeout(function () {
+            pageLoader.classList.add('loaded');
+        }, 400);   // small delay so the spinner is visible briefly, even on fast connections
+    }
+});
+// ===========================
 // PRODUCT DATA
 // This is our single source of truth for all product info.
 // Both the homepage AND product details page use this same list.
