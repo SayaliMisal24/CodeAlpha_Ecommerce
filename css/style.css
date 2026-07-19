@@ -1379,3 +1379,28 @@ img {
         transform: rotate(360deg);
     }
 }
+/* ===========================
+   23. BACK BUTTON
+=========================== */
+.back-button-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem 1.5rem 0;
+}
+
+.back-button {
+    background: none;
+    border: 1px solid #dddddd;
+    color: var(--text-color);
+    padding: 0.5rem 1.1rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
