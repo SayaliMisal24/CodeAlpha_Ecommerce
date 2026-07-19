@@ -1,8 +1,9 @@
 const express = require('express');
 require('dotenv').config();
 const { MongoClient } = require('mongodb');
-
+const cors = require('cors');
 const app = express();
+app.use(cors());
 app.use(express.json());   // allows our server to understand JSON data sent from the frontend
 const PORT = 3000;
 

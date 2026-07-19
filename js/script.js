@@ -537,21 +537,48 @@ function renderCheckout() {
 }
 
 if (checkoutForm) {
-    checkoutForm.addEventListener('submit', function (e) {
-        e.preventDefault();   // stops the form from actually trying to submit/reload the page
+    checkoutForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
 
         if (cart.length === 0) {
             alert('Your cart is empty. Please add items before placing an order.');
             return;
         }
 
-        alert('Order placed successfully! (This is a UI demo — no real payment was processed.)');
+        // Gather the order details to send to our backend
+        const orderData = {
+            customerName: document.getElementById('fullName').value,
+            email: document.getElementById('email').value,
+            address: document.getElementById('address').value,
+            city: document.getElementById('city').value,
+            pincode: document.getElementById('pincode').value,
+            phone: document.getElementById('phone').value,
+            items: cart,
+            total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+        };
 
-        // Clear the cart after "placing" the order
-        cart = [];
-        saveCartToStorage();
-        renderCheckout();
-        checkoutForm.reset();   // clears all the typed form fields
+        try {
+            const response = await fetch('http://localhost:3000/api/orders', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(orderData)
+            });
+
+            if (!response.ok) {
+                throw new Error('Order failed');
+            }
+
+            alert('Order placed successfully! Thank you for shopping with Novacart.');
+
+            cart = [];
+            saveCartToStorage();
+            renderCheckout();
+            checkoutForm.reset();
+
+        } catch (error) {
+            alert('Something went wrong placing your order. Please make sure the server is running and try again.');
+            console.error(error);
+        }
     });
 }
 
