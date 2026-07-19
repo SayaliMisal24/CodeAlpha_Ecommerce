@@ -493,7 +493,19 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
     });
 });
 
-renderProducts();
+// Check if a category was passed in the URL (e.g., from a category card click)
+const urlCategoryParams = new URLSearchParams(window.location.search);
+const categoryFromUrl = urlCategoryParams.get('category');
+
+if (categoryFromUrl) {
+    renderProducts(categoryFromUrl);
+    // Also mark the matching filter button as active
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.filter === categoryFromUrl);
+    });
+} else {
+    renderProducts();
+}
 // ===========================
 // CHECKOUT PAGE
 // ===========================

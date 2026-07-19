@@ -32,7 +32,9 @@ body.dark-mode {
     padding: 0;             /* removes default inner spacing */
     box-sizing: border-box; /* makes width/height calculations predictable (explained below) */
 }
-
+html {
+    scroll-behavior: smooth;   /* makes ALL anchor-link jumps on the page animate smoothly instead of snapping instantly */
+}
 /* ===========================
    2. BASE PAGE SETUP
 =========================== */
