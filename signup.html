@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | Novacart</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- ============ PAGE LOADER ============ -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-spinner"></div>
+    </div>
+
+    <!-- ============ NAVBAR ============ -->
+    <header class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="logo">Novacart</a>
+            <button class="hamburger-btn" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="#">Shop</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <div class="navbar-icons">
+                <button class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+                <button class="search-toggle" aria-label="Search">🔍</button>
+                <a href="wishlist.html" aria-label="Wishlist">🤍</a>
+                <a href="#" aria-label="Cart">🛒 <span class="cart-count">0</span></a>
+            </div>
+        </div>
+    </header>
+
+    <div class="back-button-wrapper">
+        <button class="back-button" onclick="window.history.back()">← Back</button>
+    </div>
+
+    <!-- ============ SIGNUP FORM ============ -->
+    <section class="auth-page">
+        <div class="auth-card">
+            <h2>Create Your Account</h2>
+            <p class="auth-subtitle">Join Novacart for a better shopping experience</p>
+
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" required minlength="6">
+                </div>
+
+                <p class="auth-error" id="signupError"></p>
+
+                <button type="submit" class="btn-primary auth-submit-btn">Sign Up</button>
+            </form>
+
+            <p class="auth-switch">Already have an account? <a href="login.html">Log in</a></p>
+        </div>
+    </section>
+
+    <!-- ============ SEARCH OVERLAY ============ -->
+    <div class="search-overlay">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search products..." autocomplete="off">
+            <button class="search-close" aria-label="Close search">&times;</button>
+        </div>
+        <div class="search-results" id="searchResults"></div>
+    </div>
+
+    <!-- ============ CART SIDEBAR ============ -->
+    <div class="cart-overlay"></div>
+    <aside class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="cart-close" aria-label="Close cart">&times;</button>
+        </div>
+        <div class="cart-items"><p class="cart-empty-msg">Your cart is empty.</p></div>
+        <div class="cart-footer">
+            <div class="cart-total-row"><span>Total:</span><span class="cart-total-amount">₹0</span></div>
+            <a href="checkout.html" class="btn-primary cart-checkout-btn">Checkout</a>
+        </div>
+    </aside>
+
+    <button class="back-to-top" id="backToTopBtn" aria-label="Back to top">↑</button>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In | Novacart</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- ============ PAGE LOADER ============ -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-spinner"></div>
+    </div>
+<!-- ============ NAVBAR ============ -->
+    <header class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="logo">Novacart</a>
+
+            <button class="hamburger-btn" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="#">Shop</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+
+            <div class="navbar-icons">
+                <button class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+                <a href="#" aria-label="Search">🔍</a>
+                <a href="wishlist.html" aria-label="Wishlist">🤍</a>
+                <a href="#" aria-label="Cart">🛒 <span class="cart-count">0</span></a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============ LOGIN FORM ============ -->
+    <section class="auth-section">
+        <div class="auth-card">
+            <h2>Welcome Back</h2>
+            <p class="auth-subtitle">Log in to continue to Novacart</p>
+
+            <form id="loginForm">
+                <div class="auth-field">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" placeholder="you@example.com" required>
+                </div>
+
+                <div class="auth-field">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                </div>
+
+                <p class="auth-error-msg" id="loginError"></p>
+
+                <button type="submit" class="btn-primary auth-submit-btn">Log In</button>
+            </form>
+
+            <p class="auth-switch-text">Don't have an account? <a href="signup.html">Create one</a></p>
+        </div>
+    </section>
+    <!-- ============ SEARCH OVERLAY ============ -->
+    <div class="search-overlay">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search products..." autocomplete="off">
+            <button class="search-close" aria-label="Close search">&times;</button>
+        </div>
+        <div class="search-results" id="searchResults"></div>
+    </div>
+
+    <!-- ============ CART SIDEBAR ============ -->
+    <div class="cart-overlay"></div>
+    <aside class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="cart-close" aria-label="Close cart">&times;</button>
+        </div>
+        <div class="cart-items"><p class="cart-empty-msg">Your cart is empty.</p></div>
+        <div class="cart-footer">
+            <div class="cart-total-row"><span>Total:</span><span class="cart-total-amount">₹0</span></div>
+            <a href="checkout.html" class="btn-primary cart-checkout-btn">Checkout</a>
+        </div>
+    </aside>
+
+    <button class="back-to-top" id="backToTopBtn" aria-label="Back to top">↑</button>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
