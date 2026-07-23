@@ -14,42 +14,7 @@ window.addEventListener('load', function () {
 // This is our single source of truth for all product info.
 // Both the homepage AND product details page use this same list.
 // ===========================
-const products = [
-    {
-        id: 1,
-        name: "Classic Leather Watch",
-        price: 7499,
-        image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600",
-        description: "A timeless leather-strap watch designed for everyday elegance. Featuring a minimalist dial, durable stainless steel case, and a genuine leather band that ages beautifully over time.",
-        category: "Accessories"
-    },
-    {
-        id: 2,
-        name: "Urban Sneakers",
-        price: 5299,
-        image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600",
-        description: "Lightweight, comfortable sneakers built for everyday city life. A versatile design that pairs effortlessly with casual or athletic outfits.",
-        category: "Footwear"
-    },
-    {
-        id: 3,
-        name: "Minimalist Handbag",
-        price: 9999,
-        image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600",
-        description: "A clean, structured handbag crafted from premium vegan leather. Spacious enough for daily essentials while keeping a sleek, minimal silhouette.",
-        category: "Accessories"
-    },
-    {
-
-        id: 4,
-        name: "Aviator Sunglasses",
-        price: 3749,
-        image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600",
-        description: "Classic aviator-style sunglasses with UV-protected lenses and a lightweight metal frame. A timeless accessory for any season.",
-        category: "Accessories"
-    }
-    
-];
+let products = [];   // will be filled in by fetching from our backend
 // ===========================
 // CART DATA & CORE LOGIC
 // ===========================
@@ -344,7 +309,9 @@ themeToggleBtn.addEventListener('click', function () {
 // Only run this code if we're actually on the product details page
 // (checks if the quantity display element exists on the current page)
 const qtyDisplay = document.getElementById('qtyDisplay');
-    if (qtyDisplay) {
+
+function loadProductDetails() {
+    if (!qtyDisplay) return;
         // Read the "id" value from the page's URL (e.g., product.html?id=3 → gets "3")
     const urlParams = new URLSearchParams(window.location.search);
     const productId = Number(urlParams.get('id'));
@@ -512,7 +479,33 @@ if (categoryFromUrl) {
         btn.classList.toggle('active', btn.dataset.filter === categoryFromUrl);
     });
 } else {
-    renderProducts();
+    // Fetch products from our backend, THEN render them
+async function loadProducts() {
+    try {
+        const response = await fetch('http://localhost:3000/api/products');
+        products = await response.json();
+
+        // Now that we have real product data, render everything that depends on it
+        const categoryFromUrl = new URLSearchParams(window.location.search).get('category');
+        if (categoryFromUrl) {
+            renderProducts(categoryFromUrl);
+        } else {
+            renderProducts();
+        }
+
+        // Also refresh product-details page and wishlist page, if we're on those
+        if (typeof loadProductDetails === 'function') loadProductDetails();
+        if (typeof renderWishlistPage === 'function') renderWishlistPage();
+
+    } catch (error) {
+        console.error('Failed to load products:', error);
+        if (productsGrid) {
+            productsGrid.innerHTML = '<p class="cart-empty-msg">Could not load products. Please make sure the server is running.</p>';
+        }
+    }
+}
+
+loadProducts();
 }
 // ===========================
 // CHECKOUT PAGE
