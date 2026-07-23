@@ -62,12 +62,20 @@ let cart = [];
 const cartItemsContainer = document.querySelector('.cart-items');
 const cartTotalAmount = document.querySelector('.cart-total-amount');
 const cartCountBadge = document.querySelector('.cart-count');
-
+// Checks if a user is currently logged in
+function isLoggedIn() {
+    return localStorage.getItem('novacart_token') !== null;
+}
 // Function: adds a product to the cart
 function addToCart(id, name, price, image) {
+    if (!isLoggedIn()) {
+        alert('Please log in or create an account to add items to your cart.');
+        window.location.href = 'login.html';
+        return;
+    }
+
     // Check if this product is ALREADY in the cart
     const existingItem = cart.find(item => item.id === id);
-
     if (existingItem) {
         // If it's already there, just increase its quantity by 1
         existingItem.quantity += 1;
@@ -512,7 +520,11 @@ if (categoryFromUrl) {
 const checkoutItemsContainer = document.getElementById('checkoutItems');
 const checkoutTotal = document.getElementById('checkoutTotal');
 const checkoutForm = document.getElementById('checkoutForm');
-
+// If someone reaches the checkout page directly without logging in, redirect them
+if (checkoutForm && !isLoggedIn()) {
+    alert('Please log in to continue to checkout.');
+    window.location.href = 'login.html';
+}
 function renderCheckout() {
     if (!checkoutItemsContainer) return;   // only run on the checkout page
 
@@ -643,3 +655,107 @@ if (backToTopBtn) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 }
+// ===========================
+// AUTHENTICATION (Signup, Login, Logout)
+// ===========================
+const signupForm = document.getElementById('signupForm');
+const loginForm = document.getElementById('loginForm');
+
+// ---- SIGNUP ----
+if (signupForm) {
+    signupForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const name = document.getElementById('signupName').value;
+        const email = document.getElementById('signupEmail').value;
+        const password = document.getElementById('signupPassword').value;
+        const errorEl = document.getElementById('signupError');
+        errorEl.textContent = '';
+
+        try {
+            const response = await fetch('http://localhost:3000/api/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, password })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                errorEl.textContent = data.error;
+                return;
+            }
+
+            // Save the token and user info so the site remembers this login
+            localStorage.setItem('novacart_token', data.token);
+            localStorage.setItem('novacart_user', JSON.stringify(data.user));
+
+            window.location.href = 'index.html';   // redirect to homepage after signup
+
+        } catch (error) {
+            errorEl.textContent = 'Something went wrong. Please make sure the server is running.';
+        }
+    });
+}
+
+// ---- LOGIN ----
+if (loginForm) {
+    loginForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        const errorEl = document.getElementById('loginError');
+        errorEl.textContent = '';
+
+        try {
+            const response = await fetch('http://localhost:3000/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                errorEl.textContent = data.error;
+                return;
+            }
+
+            localStorage.setItem('novacart_token', data.token);
+            localStorage.setItem('novacart_user', JSON.stringify(data.user));
+
+            window.location.href = 'index.html';
+
+        } catch (error) {
+            errorEl.textContent = 'Something went wrong. Please make sure the server is running.';
+        }
+    });
+}
+
+// ---- SHOW LOGGED-IN STATE IN NAVBAR ----
+function updateAuthUI() {
+    const savedUser = localStorage.getItem('novacart_user');
+    const authLink = document.getElementById('authLink');
+    if (!authLink) return;
+
+    if (savedUser) {
+        const user = JSON.parse(savedUser);
+        authLink.textContent = `Hi, ${user.name.split(' ')[0]}`;   // shows just their first name
+        authLink.href = '#';
+        authLink.onclick = function (e) {
+            e.preventDefault();
+            if (confirm('Log out of Novacart?')) {
+                localStorage.removeItem('novacart_token');
+                localStorage.removeItem('novacart_user');
+                window.location.href = 'index.html';
+            }
+        };
+    } else {
+        authLink.textContent = 'Login';
+        authLink.href = 'login.html';
+        authLink.onclick = null;
+    }
+}
+
+updateAuthUI();

@@ -6,6 +6,24 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const app = express();
 app.use(cors());
+// Middleware: checks if a valid login token was sent with the request
+function requireAuth(req, res, next) {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ error: 'Please log in to do this.' });
+    }
+
+    const token = authHeader.split(' ')[1];   // "Bearer xxxxx" → just "xxxxx"
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;   // attaches the logged-in user's info to this request
+        next();   // token is valid — let the request continue to its actual route
+    } catch (error) {
+        return res.status(401).json({ error: 'Invalid or expired login. Please log in again.' });
+    }
+}
 app.use(express.json());   // allows our server to understand JSON data sent from the frontend
 const PORT = 3000;
 
@@ -26,8 +44,35 @@ async function connectDB() {
 
 connectDB();
 
-app.get('/', (req, res) => {
-    res.send('Novacart backend server is running!');
+app.get('/api/products', async (req, res) => {
+    try {
+        const products = await db.collection('products').find().toArray();
+        res.json(products);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch products' });
+    }
+});
+// Creates a new product — ONLY accessible to logged-in users
+app.post('/api/products', requireAuth, async (req, res) => {
+    try {
+        const { name, price, image, description, category } = req.body;
+
+        const newProduct = {
+            name,
+            price: Number(price),
+            image,
+            description,
+            category,
+            sellerEmail: req.user.email,   // remembers who added this product
+            createdAt: new Date()
+        };
+
+        const result = await db.collection('products').insertOne(newProduct);
+        res.status(201).json({ message: 'Product added successfully!', productId: result.insertedId });
+
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to add product.' });
+    }
 });
 // User signup — creates a new account
 app.post('/api/signup', async (req, res) => {
