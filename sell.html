@@ -4,16 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us | Novacart</title>
+    <title>Sell on Novacart</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-<!-- ============ PAGE LOADER ============ -->
+
     <div class="page-loader" id="pageLoader">
         <div class="loader-spinner"></div>
     </div>
-    <!-- ============ NAVBAR ============ -->
+
     <header class="navbar">
         <div class="navbar-container">
             <a href="index.html" class="logo">Novacart</a>
@@ -22,8 +22,8 @@
             </button>
             <nav class="nav-links">
                 <a href="index.html">Home</a>
-                <a href="sell.html">Shop</a>
-                <a href="about.html" class="active">About</a>
+                <a href="sell.html" class="active">Sell</a>
+                <a href="about.html">About</a>
                 <a href="contact.html">Contact</a>
             </nav>
             <div class="navbar-icons">
@@ -35,42 +35,60 @@
             </div>
         </div>
     </header>
-<!-- ============ BACK BUTTON ============ -->
+
     <div class="back-button-wrapper">
         <button class="back-button" onclick="window.history.back()">← Back</button>
     </div>
-    <!-- ============ ABOUT CONTENT ============ -->
-    <section class="about-page">
+
+    <!-- ============ SELL / ADD PRODUCT FORM ============ -->
+    <section class="sell-page">
         <div class="section-header">
-            <h2>About Novacart</h2>
-            <p>Our story, our mission</p>
+            <h2>Sell on Novacart</h2>
+            <p>List your own product for other shoppers to discover</p>
         </div>
 
-        <div class="about-content">
-            <p>Novacart was founded with a simple idea: premium fashion and accessories shouldn't be complicated to find. We curate a thoughtfully selected range of products that combine quality, style, and everyday practicality.</p>
+        <div class="sell-form-card">
+            <form id="sellForm">
+                <div class="form-group">
+                    <label for="sellName">Product Name</label>
+                    <input type="text" id="sellName" required>
+                </div>
 
-            <p>What started as a small passion project has grown into a destination for people who care about how they look and feel — without compromising on convenience. Every item in our catalog is chosen with intention, and every order is handled with care.</p>
+                <div class="form-group">
+                    <label for="sellPrice">Price (₹)</label>
+                    <input type="number" id="sellPrice" min="1" required>
+                </div>
 
-            <p>We believe great style shouldn't come at the cost of great service. That's why we're constantly refining the shopping experience — from browsing to checkout — to make it as smooth as possible for you.</p>
-        </div>
+                <div class="form-group">
+                    <label for="sellCategory">Category</label>
+                    <select id="sellCategory" required>
+                        <option value="">Select a category</option>
+                        <option value="Accessories">Accessories</option>
+                        <option value="Footwear">Footwear</option>
+                        <option value="Apparel">Apparel</option>
+                        <option value="Home">Home</option>
+                    </select>
+                </div>
 
-        <div class="about-values">
-            <div class="value-card">
-                <h3>Quality First</h3>
-                <p>We handpick every product for durability and craftsmanship.</p>
-            </div>
-            <div class="value-card">
-                <h3>Fair Pricing</h3>
-                <p>Premium doesn't have to mean overpriced. We keep things honest.</p>
-            </div>
-            <div class="value-card">
-                <h3>Customer Care</h3>
-                <p>Our support team is here for you, every step of the way.</p>
-            </div>
+                <div class="form-group">
+                    <label for="sellImage">Image URL</label>
+                    <input type="url" id="sellImage" placeholder="https://..." required>
+                    <p class="form-hint">Paste a link to an image (e.g. from Unsplash). File uploads aren't supported yet.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="sellDescription">Description</label>
+                    <textarea id="sellDescription" rows="4" required></textarea>
+                </div>
+
+                <p class="auth-error" id="sellError"></p>
+                <p class="sell-success" id="sellSuccess"></p>
+
+                <button type="submit" class="btn-primary sell-submit-btn">List Product</button>
+            </form>
         </div>
     </section>
 
-    <!-- ============ SEARCH OVERLAY ============ -->
     <div class="search-overlay">
         <div class="search-box">
             <input type="text" id="searchInput" placeholder="Search products..." autocomplete="off">
@@ -79,7 +97,6 @@
         <div class="search-results" id="searchResults"></div>
     </div>
 
-    <!-- ============ CART SIDEBAR ============ -->
     <div class="cart-overlay"></div>
     <aside class="cart-sidebar">
         <div class="cart-header">
@@ -92,8 +109,9 @@
             <a href="checkout.html" class="btn-primary cart-checkout-btn">Checkout</a>
         </div>
     </aside>
-<!-- ============ BACK TO TOP BUTTON ============ -->
+
     <button class="back-to-top" id="backToTopBtn" aria-label="Back to top">↑</button>
+
     <script src="js/script.js"></script>
 </body>
 </html>

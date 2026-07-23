@@ -752,3 +752,62 @@ function updateAuthUI() {
 }
 
 updateAuthUI();
+// ===========================
+// SELL / ADD PRODUCT FORM
+// ===========================
+const sellForm = document.getElementById('sellForm');
+
+if (sellForm) {
+    // Block this page entirely if not logged in
+    if (!isLoggedIn()) {
+        alert('Please log in to list a product for sale.');
+        window.location.href = 'login.html';
+    }
+
+    sellForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const errorEl = document.getElementById('sellError');
+        const successEl = document.getElementById('sellSuccess');
+        errorEl.textContent = '';
+        successEl.textContent = '';
+
+        const productData = {
+            name: document.getElementById('sellName').value,
+            price: document.getElementById('sellPrice').value,
+            category: document.getElementById('sellCategory').value,
+            image: document.getElementById('sellImage').value,
+            description: document.getElementById('sellDescription').value
+        };
+
+        const token = localStorage.getItem('novacart_token');
+
+        try {
+            const response = await fetch('http://localhost:3000/api/products', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`   // sends our login token so the backend knows who we are
+                },
+                body: JSON.stringify(productData)
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                errorEl.textContent = data.error;
+                return;
+            }
+
+            successEl.textContent = 'Product listed successfully! Redirecting to homepage...';
+            sellForm.reset();
+
+            setTimeout(function () {
+                window.location.href = 'index.html';
+            }, 1500);
+
+        } catch (error) {
+            errorEl.textContent = 'Something went wrong. Please make sure the server is running.';
+        }
+    });
+}
