@@ -1,4 +1,22 @@
 // ===========================
+// TOAST NOTIFICATIONS
+// ===========================
+function showToast(message, type = 'success') {
+    const container = document.getElementById('toastContainer');
+    if (!container) return;
+
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+    container.appendChild(toast);
+
+    setTimeout(() => toast.classList.add('show'), 10);
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 2500);
+}
+// ===========================
 // PAGE LOADER
 // ===========================
 window.addEventListener('load', function () {
@@ -50,6 +68,7 @@ function addToCart(id, name, price, image) {
     }
 
     renderCart();   // re-draws the cart sidebar to show the updated contents
+    showToast(`${name} added to cart ✓`);
 }
 // Function: changes an item's quantity, or removes it if it drops to 0
 function updateQuantity(id, action) {
@@ -573,8 +592,7 @@ if (checkoutForm) {
                 throw new Error('Order failed');
             }
 
-            alert('Order placed successfully! Thank you for shopping with Novacart.');
-
+            showToast('Order placed successfully! 🎉');
             cart = [];
             saveCartToStorage();
             renderCheckout();
@@ -662,6 +680,7 @@ if (signupForm) {
         const name = document.getElementById('signupName').value;
         const email = document.getElementById('signupEmail').value;
         const password = document.getElementById('signupPassword').value;
+        const role = document.querySelector('input[name="role"]:checked').value;
         const errorEl = document.getElementById('signupError');
         errorEl.textContent = '';
 
@@ -669,7 +688,7 @@ if (signupForm) {
             const response = await fetch('http://localhost:3000/api/signup', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email, password })
+                body: JSON.stringify({ name, email, password, role })
             });
 
             const data = await response.json();
@@ -734,7 +753,12 @@ function updateAuthUI() {
 
     if (savedUser) {
         const user = JSON.parse(savedUser);
+        const sellLink = document.querySelector('a[href="sell.html"]');
+    const myListingsLink = document.querySelector('a[href="my-listings.html"]');
+    if (sellLink) sellLink.style.display = user.role === 'seller' ? 'inline' : 'none';
+    if (myListingsLink) myListingsLink.style.display = user.role === 'seller' ? 'inline' : 'none';
         authLink.textContent = `Hi, ${user.name.split(' ')[0]}`;   // shows just their first name
+        
         authLink.href = '#';
         authLink.onclick = function (e) {
             e.preventDefault();
@@ -745,6 +769,10 @@ function updateAuthUI() {
             }
         };
     } else {
+        const sellLinkOut = document.querySelector('a[href="sell.html"]');
+    const myListingsLinkOut = document.querySelector('a[href="my-listings.html"]');
+    if (sellLinkOut) sellLinkOut.style.display = 'none';
+    if (myListingsLinkOut) myListingsLinkOut.style.display = 'none';
         authLink.textContent = 'Login';
         authLink.href = 'login.html';
         authLink.onclick = null;
@@ -758,11 +786,12 @@ updateAuthUI();
 const sellForm = document.getElementById('sellForm');
 
 if (sellForm) {
-    // Block this page entirely if not logged in
-    if (!isLoggedIn()) {
-        alert('Please log in to list a product for sale.');
-        window.location.href = 'login.html';
-    }
+    const savedUserForSell = JSON.parse(localStorage.getItem('novacart_user') || 'null');
+
+    if (!isLoggedIn() || !savedUserForSell || savedUserForSell.role !== 'seller') {
+        alert('Only seller accounts can list products. Please sign up as a seller.');
+        window.location.href = 'index.html';
+    } else {
 
     sellForm.addEventListener('submit', async function (e) {
         e.preventDefault();
@@ -810,4 +839,72 @@ if (sellForm) {
             errorEl.textContent = 'Something went wrong. Please make sure the server is running.';
         }
     });
+}
+// ===========================
+// MY LISTINGS PAGE
+// ===========================
+const myListingsGrid = document.getElementById('myListingsGrid');
+
+async function loadMyListings() {
+    if (!myListingsGrid) return;
+
+    if (!isLoggedIn()) {
+        alert('Please log in to view your listings.');
+        window.location.href = 'login.html';
+        return;
+    }
+
+    try {
+        const token = localStorage.getItem('novacart_token');
+        const response = await fetch('http://localhost:3000/api/my-products', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const myProducts = await response.json();
+
+        if (myProducts.length === 0) {
+            myListingsGrid.innerHTML = '<p class="cart-empty-msg">You haven\'t listed any products yet.</p>';
+            return;
+        }
+
+        myListingsGrid.innerHTML = myProducts.map(product => `
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="${product.image}" alt="${product.name}">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">${product.name}</h3>
+                    <p class="product-price">₹${product.price.toLocaleString('en-IN')}</p>
+                    <button class="btn-add-cart delete-listing-btn" data-id="${product._id}">Delete Listing</button>
+                </div>
+            </div>
+        `).join('');
+
+    } catch (error) {
+        myListingsGrid.innerHTML = '<p class="cart-empty-msg">Failed to load your listings.</p>';
+    }
+}
+
+document.addEventListener('click', async function (e) {
+    if (e.target.classList.contains('delete-listing-btn')) {
+        if (!confirm('Delete this listing?')) return;
+
+        const token = localStorage.getItem('novacart_token');
+        const id = e.target.dataset.id;
+
+        try {
+            const response = await fetch(`http://localhost:3000/api/products/${id}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (response.ok) {
+                showToast('Listing deleted.');
+                loadMyListings();
+            }
+        } catch (error) {
+            showToast('Failed to delete listing.', 'error');
+        }
+    }
+});
+
+loadMyListings();
 }

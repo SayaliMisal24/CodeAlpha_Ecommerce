@@ -29,7 +29,6 @@ const PORT = 3000;
 
 const uri = process.env.MONGO_URI;
 const client = new MongoClient(uri);
-
 let db;
 
 async function connectDB() {
@@ -74,11 +73,37 @@ app.post('/api/products', requireAuth, async (req, res) => {
         res.status(500).json({ error: 'Failed to add product.' });
     }
 });
+// Fetches only products listed by the currently logged-in user
+app.get('/api/my-products', requireAuth, async (req, res) => {
+    try {
+        const myProducts = await db.collection('products').find({ sellerEmail: req.user.email }).toArray();
+        res.json(myProducts);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch your products.' });
+    }
+});
+
+// Deletes a product — only if it belongs to the logged-in user
+app.delete('/api/products/:id', requireAuth, async (req, res) => {
+    try {
+        const { ObjectId } = require('mongodb');
+        const product = await db.collection('products').findOne({ _id: new ObjectId(req.params.id) });
+
+        if (!product) return res.status(404).json({ error: 'Product not found.' });
+        if (product.sellerEmail !== req.user.email) {
+            return res.status(403).json({ error: 'You can only delete your own products.' });
+        }
+
+        await db.collection('products').deleteOne({ _id: new ObjectId(req.params.id) });
+        res.json({ message: 'Product deleted.' });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to delete product.' });
+    }
+});
 // User signup — creates a new account
 app.post('/api/signup', async (req, res) => {
     try {
-        const { name, email, password } = req.body;
-
+        const { name, email, password, role } = req.body;
         // Check if a user with this email already exists
         const existingUser = await db.collection('users').findOne({ email });
         if (existingUser) {
@@ -90,17 +115,18 @@ app.post('/api/signup', async (req, res) => {
 
         // Save the new user
         const newUser = {
-            name,
-            email,
-            password: hashedPassword,
-            createdAt: new Date()
+        name,
+        email,
+        password: hashedPassword,
+        role: role || 'customer',
+        createdAt: new Date()
         };
 
         const result = await db.collection('users').insertOne(newUser);
 
         // Create a token for this new user, so they're automatically logged in after signup
         const token = jwt.sign(
-            { userId: result.insertedId, email },
+            { userId: result.insertedId, email, role: newUser.role },
             process.env.JWT_SECRET,
             { expiresIn: '7d' }
         );
@@ -108,7 +134,7 @@ app.post('/api/signup', async (req, res) => {
         res.status(201).json({
             message: 'Account created successfully!',
             token,
-            user: { name, email }
+            user: { name, email, role: newUser.role }
         });
 
     } catch (error) {
@@ -135,7 +161,7 @@ app.post('/api/login', async (req, res) => {
 
         // Passwords match — create a new token for this login session
         const token = jwt.sign(
-            { userId: user._id, email: user.email },
+            { userId: user._id, email: user.email, role: user.role },
             process.env.JWT_SECRET,
             { expiresIn: '7d' }
         );
@@ -143,7 +169,7 @@ app.post('/api/login', async (req, res) => {
         res.json({
             message: 'Login successful!',
             token,
-            user: { name: user.name, email: user.email }
+            user: { name: user.name, email: user.email, role: user.role }
         });
 
     } catch (error) {
