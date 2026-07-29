@@ -749,6 +749,7 @@ if (loginForm) {
 function updateAuthUI() {
     const savedUser = localStorage.getItem('novacart_user');
     const authLink = document.getElementById('authLink');
+    const logoutLink = document.getElementById('logoutLink');
     if (!authLink) return;
 
     if (savedUser) {
@@ -762,13 +763,19 @@ function updateAuthUI() {
         authLink.href = '#';
         authLink.onclick = function (e) {
             e.preventDefault();
-            if (confirm('Log out of Novacart?')) {
-                localStorage.removeItem('novacart_token');
-                localStorage.removeItem('novacart_user');
-                window.location.href = 'index.html';
-            }
-        };
-    } else {
+            const dropdown = document.getElementById('profileDropdown');
+            if (dropdown) dropdown.classList.toggle('active');
+};
+
+        if (logoutLink) {
+            logoutLink.onclick = function (e) {
+            e.preventDefault();
+            localStorage.removeItem('novacart_token');
+            localStorage.removeItem('novacart_user');
+            window.location.href = 'index.html';
+};
+        }
+    } else {    
         const sellLinkOut = document.querySelector('a[href="sell.html"]');
     const myListingsLinkOut = document.querySelector('a[href="my-listings.html"]');
     if (sellLinkOut) sellLinkOut.style.display = 'none';
@@ -908,3 +915,64 @@ document.addEventListener('click', async function (e) {
 
 loadMyListings();
 }
+// Close the profile dropdown if clicking anywhere else on the page
+document.addEventListener('click', function (e) {
+    const wrapper = document.querySelector('.profile-menu-wrapper');
+    const dropdown = document.getElementById('profileDropdown');
+    if (wrapper && dropdown && !wrapper.contains(e.target)) {
+        dropdown.classList.remove('active');
+    }
+});
+
+// ===========================
+// ORDER HISTORY PAGE
+// ===========================
+const ordersList = document.getElementById('ordersList');
+
+async function loadMyOrders() {
+    if (!ordersList) return;
+
+    if (!isLoggedIn()) {
+        alert('Please log in to view your orders.');
+        window.location.href = 'login.html';
+        return;
+    }
+
+    try {
+        const token = localStorage.getItem('novacart_token');
+        const response = await fetch('http://localhost:3000/api/my-orders', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const orders = await response.json();
+
+        if (orders.length === 0) {
+            ordersList.innerHTML = '<p class="cart-empty-msg">You haven\'t placed any orders yet.</p>';
+            return;
+        }
+
+        ordersList.innerHTML = orders.map(order => `
+            <div class="order-card">
+                <div class="order-card-header">
+                    <span>Order placed: ${new Date(order.createdAt).toLocaleDateString('en-IN')}</span>
+                    <span class="order-total">₹${order.total.toLocaleString('en-IN')}</span>
+                </div>
+                <div class="order-items">
+                    ${order.items.map(item => `
+                        <div class="cart-item">
+                            <img src="${item.image}" alt="${item.name}">
+                            <div class="cart-item-details">
+                                <h4>${item.name} × ${item.quantity}</h4>
+                                <p>₹${(item.price * item.quantity).toLocaleString('en-IN')}</p>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `).join('');
+
+    } catch (error) {
+        ordersList.innerHTML = '<p class="cart-empty-msg">Failed to load your orders.</p>';
+    }
+}
+
+loadMyOrders();

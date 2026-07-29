@@ -192,7 +192,18 @@ app.post('/api/orders', async (req, res) => {
         res.status(500).json({ error: 'Failed to place order' });
     }
 });
-
+// Fetches only orders placed by the currently logged-in user
+app.get('/api/my-orders', requireAuth, async (req, res) => {
+    try {
+        const myOrders = await db.collection('orders')
+            .find({ email: req.user.email })
+            .sort({ createdAt: -1 })   // newest orders first
+            .toArray();
+        res.json(myOrders);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch your orders.' });
+    }
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);

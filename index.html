@@ -26,7 +26,21 @@
         <div class="navbar-container">
 
             <!-- Logo / Brand Name -->
-            <a href="#" class="logo">Novacart</a>
+            <a href="index.html" class="logo">
+    <svg class="logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <linearGradient id="logoGradient" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#8b7cf6"/>
+                <stop offset="100%" stop-color="#5a4bd4"/>
+            </linearGradient>
+        </defs>
+        <rect width="32" height="32" rx="9" fill="url(#logoGradient)"/>
+        <path d="M9 12H23L21.5 20.5C21.4 21.1 20.9 21.5 20.3 21.5H11.7C11.1 21.5 10.6 21.1 10.5 20.5L9 12Z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="M12 12V10C12 8.34315 13.3431 7 15 7H17C18.6569 7 20 8.34315 20 10V12" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+        <circle cx="22.5" cy="9" r="2" fill="#ffe066"/>
+    </svg>
+    <span class="logo-text">Novacart</span>
+</a>
             <!-- Hamburger menu button (visible only on mobile) -->
             <button class="hamburger-btn" aria-label="Menu">
                 <span></span>
@@ -46,7 +60,14 @@
             <div class="navbar-icons">
             <button class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
                 <button class="search-toggle" aria-label="Search">🔍</button>
+                <div class="profile-menu-wrapper">
                 <a href="login.html" id="authLink" class="auth-link">Login</a>
+                <div class="profile-dropdown" id="profileDropdown">
+                    <a href="orders.html">📦 My Orders</a>
+                    <a href="reviews.html">⭐ My Reviews</a>
+                    <a href="#" id="logoutLink">🚪 Logout</a>
+    </div>
+</div>
                 <a href="wishlist.html" aria-label="Wishlist">🤍</a>
                 <a href="#" aria-label="Cart">🛒 <span class="cart-count">0</span></a>
             </div>

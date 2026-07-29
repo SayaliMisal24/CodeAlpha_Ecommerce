@@ -77,10 +77,26 @@ img {
 /* Logo styling */
 .logo {
     font-size: 1.5rem;
-    font-weight: 700;           /* bold */
-    color: var(--text-color);
-    text-decoration: none;      /* removes the default underline on links */
-    letter-spacing: -0.5px;     /* slightly tighter letter spacing — looks more premium on big text */
+    font-weight: 800;
+    text-decoration: none;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+}
+
+.logo-icon {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 6px rgba(108, 92, 231, 0.35));
+}
+
+.logo-text {
+    background: linear-gradient(135deg, #8b7cf6 0%, #5a4bd4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 /* Navigation links container */
@@ -1598,4 +1614,62 @@ img {
     cursor: pointer;
     font-size: 0.9rem;
     color: var(--text-color);
+}
+/* ===========================
+   28. PROFILE DROPDOWN
+=========================== */
+.profile-menu-wrapper {
+    position: relative;
+}
+
+.profile-dropdown {
+    display: none;
+    position: absolute;
+    top: 130%;
+    right: 0;
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    min-width: 160px;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 250;
+}
+
+.profile-dropdown.active {
+    display: flex;
+}
+
+.profile-dropdown a {
+    padding: 0.8rem 1rem;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+}
+
+.profile-dropdown a:hover {
+    background-color: rgba(108, 92, 231, 0.1);
+}
+.order-card {
+    background-color: var(--card-bg);
+    border-radius: 14px;
+    padding: 1.3rem;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+}
+
+.order-card-header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 0.8rem;
+    margin-bottom: 0.8rem;
+    border-bottom: 1px solid #eeeeee;
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+.order-total {
+    font-weight: 700;
+    color: var(--accent);
 }
