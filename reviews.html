@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders | Novacart</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="page-loader" id="pageLoader"><div class="loader-spinner"></div></div>
+    <header class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="logo">
+    <svg class="logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <linearGradient id="logoGradient" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#8b7cf6"/>
+                <stop offset="100%" stop-color="#5a4bd4"/>
+            </linearGradient>
+        </defs>
+        <rect width="32" height="32" rx="9" fill="url(#logoGradient)"/>
+        <path d="M9 12H23L21.5 20.5C21.4 21.1 20.9 21.5 20.3 21.5H11.7C11.1 21.5 10.6 21.1 10.5 20.5L9 12Z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="M12 12V10C12 8.34315 13.3431 7 15 7H17C18.6569 7 20 8.34315 20 10V12" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+        <circle cx="22.5" cy="9" r="2" fill="#ffe066"/>
+    </svg>
+    <span class="logo-text">Novacart</span>
+</a>
+            <button class="hamburger-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="sell.html">Sell</a>
+                <a href="my-listings.html">My Listings</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <div class="navbar-icons">
+                <button class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+                <button class="search-toggle" aria-label="Search">🔍</button>
+                <div class="profile-menu-wrapper">
+                    <a href="login.html" id="authLink" class="auth-link">Login</a>
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <a href="orders.html">📦 My Orders</a>
+                        <a href="reviews.html">⭐ My Reviews</a>
+                        <a href="#" id="logoutLink">🚪 Logout</a>
+                    </div>
+                </div>
+                <a href="wishlist.html" aria-label="Wishlist">🤍</a>
+                <a href="#" aria-label="Cart">🛒 <span class="cart-count">0</span></a>
+            </div>
+        </div>
+    </header>
+    <div class="back-button-wrapper">
+        <button class="back-button" onclick="window.history.back()">← Back</button>
+    </div>
+    <section class="wishlist-page">
+    <div class="section-header">
+        <h2>My Reviews</h2>
+        <p>Reviews you've written</p>
+    </div>
+    <div id="myReviewsList"></div>
+</section>
+    <div class="search-overlay">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search products..." autocomplete="off">
+            <button class="search-close" aria-label="Close search">&times;</button>
+        </div>
+        <div class="search-results" id="searchResults"></div>
+    </div>
+    <div class="cart-overlay"></div>
+    <aside class="cart-sidebar">
+        <div class="cart-header"><h3>Your Cart</h3><button class="cart-close" aria-label="Close cart">&times;</button></div>
+        <div class="cart-items"><p class="cart-empty-msg">Your cart is empty.</p></div>
+        <div class="cart-footer">
+            <div class="cart-total-row"><span>Total:</span><span class="cart-total-amount">₹0</span></div>
+            <a href="checkout.html" class="btn-primary cart-checkout-btn">Checkout</a>
+        </div>
+    </aside>
+    <button class="back-to-top" id="backToTopBtn" aria-label="Back to top">↑</button>
+    <div class="toast-container" id="toastContainer"></div>
+    <script src="js/script.js"></script>
+</body>
+</html>

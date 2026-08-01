@@ -204,6 +204,53 @@ app.get('/api/my-orders', requireAuth, async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch your orders.' });
     }
 });
+// Adds a review for a product
+app.post('/api/reviews', requireAuth, async (req, res) => {
+    try {
+        const { productId, productName, rating, comment } = req.body;
+
+        const review = {
+            productId,
+            productName,
+            rating: Number(rating),
+            comment,
+            reviewerName: req.user.email.split('@')[0],
+            reviewerEmail: req.user.email,
+            createdAt: new Date()
+        };
+
+        const result = await db.collection('reviews').insertOne(review);
+        res.status(201).json({ message: 'Review submitted!', reviewId: result.insertedId });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to submit review.' });
+    }
+});
+
+// Fetches all reviews for a specific product
+app.get('/api/reviews/:productId', async (req, res) => {
+    try {
+        const reviews = await db.collection('reviews')
+            .find({ productId: req.params.productId })
+            .sort({ createdAt: -1 })
+            .toArray();
+        res.json(reviews);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch reviews.' });
+    }
+});
+
+// Fetches all reviews written BY the logged-in user
+app.get('/api/my-reviews', requireAuth, async (req, res) => {
+    try {
+        const myReviews = await db.collection('reviews')
+            .find({ reviewerEmail: req.user.email })
+            .sort({ createdAt: -1 })
+            .toArray();
+        res.json(myReviews);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch your reviews.' });
+    }
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);

@@ -349,7 +349,7 @@ function loadProductDetails() {
         document.getElementById('productPrice').textContent = `₹${currentProduct.price.toLocaleString('en-IN')}`;
         document.getElementById('productDescription').textContent = currentProduct.description;
         document.getElementById('productCategory').textContent = currentProduct.category;
-
+        
         // Update the page's browser tab title too
         document.title = `${currentProduct.name} | Novacart`;
 
@@ -358,6 +358,7 @@ function loadProductDetails() {
         addToCartDetailsBtn.dataset.name = currentProduct.name;
         addToCartDetailsBtn.dataset.price = currentProduct.price;
         addToCartDetailsBtn.dataset.image = currentProduct.image;
+        loadReviews(String(currentProduct._id || currentProduct.id));
     }
     const decreaseBtn = document.getElementById('decreaseQty');
     const increaseBtn = document.getElementById('increaseQty');
@@ -388,6 +389,109 @@ function loadProductDetails() {
         }
 
         openCart();   // automatically open the cart so the user sees it was added
+    });
+}
+// ===========================
+// PRODUCT REVIEWS
+// ===========================
+const reviewsList = document.getElementById('reviewsList');
+const reviewForm = document.getElementById('reviewForm');
+const myReviewsList = document.getElementById('myReviewsList');
+
+async function loadMyReviews() {
+    if (!myReviewsList) return;
+    if (!isLoggedIn()) {
+        window.location.href = 'login.html';
+        return;
+    }
+    const token = localStorage.getItem('novacart_token');
+    const response = await fetch('http://localhost:3000/api/my-reviews', {
+        headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const reviews = await response.json();
+
+    if (reviews.length === 0) {
+        myReviewsList.innerHTML = '<p class="cart-empty-msg">You haven\'t written any reviews yet.</p>';
+        return;
+    }
+
+    myReviewsList.innerHTML = reviews.map(r => `
+        <div class="review-card">
+            <div class="review-card-header">
+                <span>${r.productName}</span>
+                <span>${new Date(r.createdAt).toLocaleDateString('en-IN')}</span>
+            </div>
+            <div class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
+            <p class="review-comment">${r.comment}</p>
+        </div>
+    `).join('');
+}
+
+loadMyReviews();
+async function loadReviews(productId) {
+    if (!reviewsList) return;
+    try {
+        const response = await fetch(`http://localhost:3000/api/reviews/${productId}`);
+        const reviews = await response.json();
+
+        if (reviews.length === 0) {
+            reviewsList.innerHTML = '<p class="cart-empty-msg">No reviews yet. Be the first!</p>';
+            return;
+        }
+
+        reviewsList.innerHTML = reviews.map(r => `
+            <div class="review-card">
+                <div class="review-card-header">
+                    <span>${r.reviewerName}</span>
+                    <span>${new Date(r.createdAt).toLocaleDateString('en-IN')}</span>
+                </div>
+                <div class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
+                <p class="review-comment">${r.comment}</p>
+            </div>
+        `).join('');
+    } catch (error) {
+        reviewsList.innerHTML = '<p class="cart-empty-msg">Failed to load reviews.</p>';
+    }
+}
+
+if (reviewForm) {
+    reviewForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        if (!isLoggedIn()) {
+            alert('Please log in to write a review.');
+            window.location.href = 'login.html';
+            return;
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+        const token = localStorage.getItem('novacart_token');
+
+        try {
+            const response = await fetch('http://localhost:3000/api/reviews', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    productId,
+                    productName: document.getElementById('productName').textContent,
+                    rating: document.getElementById('reviewRating').value,
+                    comment: document.getElementById('reviewComment').value
+                })
+            });
+
+            if (!response.ok) throw new Error('Failed');
+
+            showToast('Review submitted! ⭐');
+            reviewForm.reset();
+            loadReviews(productId);
+
+        } catch (error) {
+            showToast('Failed to submit review.', 'error');
+        }
     });
 }
 // ===========================
