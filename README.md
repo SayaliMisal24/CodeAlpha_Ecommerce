@@ -3,8 +3,7 @@
 A complete, full-stack e-commerce web application built from scratch — from static HTML/CSS/JS through a live, deployed Node.js/Express backend with a real MongoDB database, authentication, and multi-vendor selling.
 
 **Live site:** https://codealpha-ecommerce-novacart.netlify.app/
-**Backend API:** https://codealpha-ecommerce-novacart-backend.onrender.com
-
+**Backend API:** https://codealpha-ecommerce-novacart-backend.onrender.com/api/products
 ---
 
 ## Features
