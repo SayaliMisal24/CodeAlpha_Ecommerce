@@ -4,6 +4,25 @@ const { MongoClient } = require('mongodb');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const cloudinary = require('cloudinary').v2;
+const multer = require('multer');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'novacart-products',   // groups all your product images in one Cloudinary folder
+        allowed_formats: ['jpg', 'jpeg', 'png', 'webp']
+    }
+});
+
+const upload = multer({ storage: storage });
 const app = express();
 app.use(cors());
 // Middleware: checks if a valid login token was sent with the request
@@ -72,6 +91,14 @@ app.post('/api/products', requireAuth, async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: 'Failed to add product.' });
     }
+});
+
+// Uploads a single image, returns its hosted URL
+app.post('/api/upload', requireAuth, upload.single('image'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ error: 'No image uploaded.' });
+    }
+    res.json({ imageUrl: req.file.path });
 });
 // Fetches only products listed by the currently logged-in user
 app.get('/api/my-products', requireAuth, async (req, res) => {

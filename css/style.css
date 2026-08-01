@@ -1729,3 +1729,10 @@ img {
     color: var(--text-color);
     margin-bottom: 1rem;
 }
+.image-preview {
+    width: 100%;
+    max-width: 200px;
+    margin-top: 0.8rem;
+    border-radius: 10px;
+    display: block;
+}

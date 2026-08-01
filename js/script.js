@@ -898,58 +898,89 @@ const sellForm = document.getElementById('sellForm');
 
 if (sellForm) {
     const savedUserForSell = JSON.parse(localStorage.getItem('novacart_user') || 'null');
-
     if (!isLoggedIn() || !savedUserForSell || savedUserForSell.role !== 'seller') {
         alert('Only seller accounts can list products. Please sign up as a seller.');
         window.location.href = 'index.html';
     } else {
 
-    sellForm.addEventListener('submit', async function (e) {
-        e.preventDefault();
+        // Show a live preview when a photo is selected
+        const imageInput = document.getElementById('sellImage');
+        const imagePreview = document.getElementById('imagePreview');
+        imageInput.addEventListener('change', function () {
+            const file = this.files[0];
+            if (file) {
+                imagePreview.src = URL.createObjectURL(file);
+                imagePreview.style.display = 'block';
+            }
+        });
 
-        const errorEl = document.getElementById('sellError');
-        const successEl = document.getElementById('sellSuccess');
-        errorEl.textContent = '';
-        successEl.textContent = '';
+        sellForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
 
-        const productData = {
-            name: document.getElementById('sellName').value,
-            price: document.getElementById('sellPrice').value,
-            category: document.getElementById('sellCategory').value,
-            image: document.getElementById('sellImage').value,
-            description: document.getElementById('sellDescription').value
-        };
+            const errorEl = document.getElementById('sellError');
+            const successEl = document.getElementById('sellSuccess');
+            errorEl.textContent = '';
+            successEl.textContent = '';
 
-        const token = localStorage.getItem('novacart_token');
+            const token = localStorage.getItem('novacart_token');
+            const imageFile = document.getElementById('sellImage').files[0];
 
-        try {
-            const response = await fetch('http://localhost:3000/api/products', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`   // sends our login token so the backend knows who we are
-                },
-                body: JSON.stringify(productData)
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                errorEl.textContent = data.error;
+            if (!imageFile) {
+                errorEl.textContent = 'Please choose a product photo.';
                 return;
             }
 
-            successEl.textContent = 'Product listed successfully! Redirecting to homepage...';
-            sellForm.reset();
+            try {
+                // Step 1: upload the image first
+                const formData = new FormData();
+                formData.append('image', imageFile);
 
-            setTimeout(function () {
-                window.location.href = 'index.html';
-            }, 1500);
+                const uploadResponse = await fetch('http://localhost:3000/api/upload', {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` },
+                    body: formData
+                });
 
-        } catch (error) {
-            errorEl.textContent = 'Something went wrong. Please make sure the server is running.';
-        }
-    });
+                const uploadData = await uploadResponse.json();
+                if (!uploadResponse.ok) throw new Error(uploadData.error || 'Image upload failed');
+
+                // Step 2: create the product using the uploaded image's URL
+                const productData = {
+                    name: document.getElementById('sellName').value,
+                    price: document.getElementById('sellPrice').value,
+                    category: document.getElementById('sellCategory').value,
+                    image: uploadData.imageUrl,
+                    description: document.getElementById('sellDescription').value
+                };
+
+                const response = await fetch('http://localhost:3000/api/products', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(productData)
+                });
+
+                const data = await response.json();
+                if (!response.ok) {
+                    errorEl.textContent = data.error;
+                    return;
+                }
+
+                successEl.textContent = 'Product listed successfully! Redirecting...';
+                sellForm.reset();
+                imagePreview.style.display = 'none';
+
+                setTimeout(function () {
+                    window.location.href = 'index.html';
+                }, 1500);
+
+            } catch (error) {
+                errorEl.textContent = 'Something went wrong. Please make sure the server is running.';
+            }
+        });
+    }
 }
 // ===========================
 // MY LISTINGS PAGE
@@ -1018,7 +1049,7 @@ document.addEventListener('click', async function (e) {
 });
 
 loadMyListings();
-}
+
 // Close the profile dropdown if clicking anywhere else on the page
 document.addEventListener('click', function (e) {
     const wrapper = document.querySelector('.profile-menu-wrapper');
