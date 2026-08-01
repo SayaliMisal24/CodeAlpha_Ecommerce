@@ -1,4 +1,4 @@
-{
+  {
   "name": "backend",
   "version": "1.0.0",
   "description": "",
@@ -20,5 +20,8 @@
     "mongodb": "^7.5.0",
     "multer": "^2.2.0",
     "multer-storage-cloudinary": "^4.0.0"
-  }
+  },
+  "engines": {
+        "node": "20.x"
+    }
 }
