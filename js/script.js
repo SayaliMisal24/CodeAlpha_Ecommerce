@@ -405,7 +405,7 @@ async function loadMyReviews() {
         return;
     }
     const token = localStorage.getItem('novacart_token');
-    const response = await fetch('http://localhost:3000/api/my-reviews', {
+    const response = await fetch('https://codealpha-ecommerce-novacart-backend.onrender.com/api/my-reviews', {
         headers: { 'Authorization': `Bearer ${token}` }
     });
     const reviews = await response.json();
@@ -431,7 +431,7 @@ loadMyReviews();
 async function loadReviews(productId) {
     if (!reviewsList) return;
     try {
-        const response = await fetch(`http://localhost:3000/api/reviews/${productId}`);
+        const response = await fetch(`https://codealpha-ecommerce-novacart-backend.onrender.com/api/reviews/${productId}`);
         const reviews = await response.json();
 
         if (reviews.length === 0) {
@@ -469,7 +469,7 @@ if (reviewForm) {
         const token = localStorage.getItem('novacart_token');
 
         try {
-            const response = await fetch('http://localhost:3000/api/reviews', {
+            const response = await fetch('https://codealpha-ecommerce-novacart-backend.onrender.com/api/reviews', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -605,7 +605,7 @@ if (categoryFromUrl) {
     // Fetch products from our backend, THEN render them
 async function loadProducts() {
     try {
-        const response = await fetch('http://localhost:3000/api/products');
+        const response = await fetch('https://codealpha-ecommerce-novacart-backend.onrender.com/api/products');
         products = await response.json();
 
         // Now that we have real product data, render everything that depends on it
@@ -686,7 +686,7 @@ if (checkoutForm) {
         };
 
         try {
-            const response = await fetch('http://localhost:3000/api/orders', {
+            const response = await fetch('https://codealpha-ecommerce-novacart-backend.onrender.com/api/orders', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(orderData)
@@ -789,7 +789,7 @@ if (signupForm) {
         errorEl.textContent = '';
 
         try {
-            const response = await fetch('http://localhost:3000/api/signup', {
+            const response = await fetch('https://codealpha-ecommerce-novacart-backend.onrender.com/api/signup', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name, email, password, role })
@@ -825,7 +825,7 @@ if (loginForm) {
         errorEl.textContent = '';
 
         try {
-            const response = await fetch('http://localhost:3000/api/login', {
+            const response = await fetch('https://codealpha-ecommerce-novacart-backend.onrender.com/api/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })
@@ -935,7 +935,7 @@ if (sellForm) {
                 const formData = new FormData();
                 formData.append('image', imageFile);
 
-                const uploadResponse = await fetch('http://localhost:3000/api/upload', {
+                const uploadResponse = await fetch('https://codealpha-ecommerce-novacart-backend.onrender.com/api/upload', {
                     method: 'POST',
                     headers: { 'Authorization': `Bearer ${token}` },
                     body: formData
@@ -953,7 +953,7 @@ if (sellForm) {
                     description: document.getElementById('sellDescription').value
                 };
 
-                const response = await fetch('http://localhost:3000/api/products', {
+                const response = await fetch('https://codealpha-ecommerce-novacart-backend.onrender.com/api/products', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -998,7 +998,7 @@ async function loadMyListings() {
 
     try {
         const token = localStorage.getItem('novacart_token');
-        const response = await fetch('http://localhost:3000/api/my-products', {
+        const response = await fetch('https://codealpha-ecommerce-novacart-backend.onrender.com/api/my-products', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const myProducts = await response.json();
@@ -1034,7 +1034,7 @@ document.addEventListener('click', async function (e) {
         const id = e.target.dataset.id;
 
         try {
-            const response = await fetch(`http://localhost:3000/api/products/${id}`, {
+            const response = await fetch(`https://codealpha-ecommerce-novacart-backend.onrender.com/api/products/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -1075,7 +1075,7 @@ async function loadMyOrders() {
 
     try {
         const token = localStorage.getItem('novacart_token');
-        const response = await fetch('http://localhost:3000/api/my-orders', {
+        const response = await fetch('https://codealpha-ecommerce-novacart-backend.onrender.com/api/my-orders', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const orders = await response.json();
