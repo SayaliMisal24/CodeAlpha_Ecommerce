@@ -68,7 +68,7 @@ CodeAlpha_Ecommerce/
    npm install
    ```
 2. Create a `.env` file inside `backend/` with:
-   ```
+   ```bash
 MONGO_URI=mongodb+srv://misalsayali24_db_user:AdpJ5byL4NdZ8C0G@cluster1.go7zb22.mongodb.net/?appName=Cluster1
 JWT_SECRET=novacart_super_secret_key_2026
 CLOUDINARY_CLOUD_NAME=yapcqsyy
